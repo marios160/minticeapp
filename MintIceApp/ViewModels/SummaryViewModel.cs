@@ -21,7 +21,7 @@ namespace MintIceApp.ViewModels
 
         public SummaryViewModel()
         {
-            Title = "Podsumowanie dnia ";
+            Title = "Podsumowanie dnia";
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 

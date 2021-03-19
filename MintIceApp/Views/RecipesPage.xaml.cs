@@ -29,5 +29,10 @@ namespace MintIceApp.Views
             base.OnAppearing();
             _viewModel.OnAppearing();
         }
+
+        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

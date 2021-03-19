@@ -14,12 +14,12 @@ namespace MintIceApp.Services
         {
             items = new List<Item>()
             {
-                new Item { Id = Guid.NewGuid().ToString(), Text = "First item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Second item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Third item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Fourth item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Fifth item", Description="This is an item description." },
-                new Item { Id = Guid.NewGuid().ToString(), Text = "Sixth item", Description="This is an item description." }
+                new Item { Id = Guid.NewGuid().ToString(), Text = "Słony karmel", Description="This is an item description." },
+                new Item { Id = Guid.NewGuid().ToString(), Text = "Sorbet truskawkowy", Description="This is an item description." },
+                new Item { Id = Guid.NewGuid().ToString(), Text = "Mango-Marakuja", Description="This is an item description." },
+                new Item { Id = Guid.NewGuid().ToString(), Text = "Kinder Jajo", Description="This is an item description." },
+                new Item { Id = Guid.NewGuid().ToString(), Text = "Śmitankowy", Description="This is an item description." },
+                new Item { Id = Guid.NewGuid().ToString(), Text = "Chałwa", Description="This is an item description." }
             };
         }
 

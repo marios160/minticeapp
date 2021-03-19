@@ -6,45 +6,66 @@
     xmlns:local="clr-namespace:MintIceApp.ViewModels"
     xmlns:model="clr-namespace:MintIceApp.Models"
     x:Name="RecipesListPage"
-    Title="{Binding Title}">
+    Title="{Binding Title}"
+    IconImageSource="ice_cream_solid.png">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding AddItemCommand}" Text="Add" />
+        <ToolbarItem Command="{Binding AddItemCommand}" IconImageSource="plus.png" />
     </ContentPage.ToolbarItems>
     <!--
         x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
         https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
     -->
-    <RefreshView
-        x:DataType="local:RecipesViewModel"
-        Command="{Binding LoadItemsCommand}"
-        IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-        <CollectionView
-            x:Name="ItemsListView"
-            ItemsSource="{Binding Items}"
-            SelectionMode="None">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <StackLayout Padding="10" x:DataType="model:Item">
-                        <Label
-                            FontSize="16"
-                            LineBreakMode="NoWrap"
-                            Style="{DynamicResource ListItemTextStyle}"
-                            Text="{Binding Text}" />
-                        <Label
-                            FontSize="13"
-                            LineBreakMode="NoWrap"
-                            Style="{DynamicResource ListItemDetailTextStyle}"
-                            Text="{Binding Description}" />
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}, Path=ItemTapped}"
-                                CommandParameter="{Binding .}"
-                                NumberOfTapsRequired="1" />
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </RefreshView>
+    <StackLayout>
+        <StackLayout>
+            <SearchBar Placeholder="Szukaj..." TextChanged="SearchBar_TextChanged" />
+        </StackLayout>
+        <RefreshView
+            x:DataType="local:RecipesViewModel"
+            Command="{Binding LoadItemsCommand}"
+            IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+            <CollectionView
+                x:Name="ItemsListView"
+                ItemsSource="{Binding Items}"
+                SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout
+                            Padding="10"
+                            x:DataType="model:Item"
+                            Orientation="Horizontal">
+                            <Label
+                                Margin="0,0,0,00"
+                                FontSize="20"
+                                HorizontalOptions="FillAndExpand"
+                                LineBreakMode="NoWrap"
+                                Style="{DynamicResource ListItemTextStyle}"
+                                Text="{Binding Text}" />
+                            <ImageButton
+                                Margin="10,0,10,0"
+                                BackgroundColor="Transparent"
+                                HeightRequest="25"
+                                Source="trash_alt_solid.png" />
+                            <ImageButton
+                                Margin="10,0,10,0"
+                                BackgroundColor="Transparent"
+                                HeightRequest="25"
+                                Source="edit_solid.png" />
+                            <ImageButton
+                                Margin="0,0,10,0"
+                                BackgroundColor="Transparent"
+                                HeightRequest="25"
+                                Source="star_regular.png" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}, Path=ItemTapped}"
+                                    CommandParameter="{Binding .}"
+                                    NumberOfTapsRequired="1" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </StackLayout>
 </ContentPage>

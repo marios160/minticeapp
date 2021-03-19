@@ -21,7 +21,7 @@ namespace MintIceApp.ViewModels
 
         public RecipesViewModel()
         {
-            Title = "Browse";
+            Title = "Receptury";
             Items = new ObservableCollection<Item>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 

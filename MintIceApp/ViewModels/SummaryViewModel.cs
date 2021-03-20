@@ -7,25 +7,26 @@ using Xamarin.Forms;
 
 using MintIceApp.Models;
 using MintIceApp.Views;
+using MintIceApp.Repositories;
 
 namespace MintIceApp.ViewModels
 {
     public class SummaryViewModel : BaseViewModel
     {
-        private Item _selectedItem;
+        private Product _selectedItem;
 
-        public ObservableCollection<Item> Items { get; }
+        public ObservableCollection<Product> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
-        public Command<Item> ItemTapped { get; }
+        public Command<Product> ItemTapped { get; }
 
         public SummaryViewModel()
         {
             Title = "Podsumowanie dnia";
-            Items = new ObservableCollection<Item>();
+            Items = new ObservableCollection<Product>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            ItemTapped = new Command<Item>(OnItemSelected);
+            ItemTapped = new Command<Product>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
         }
@@ -37,7 +38,7 @@ namespace MintIceApp.ViewModels
             try
             {
                 Items.Clear();
-                var items = await DataStore.GetItemsAsync(true);
+                var items = await ProductRepository.FindAll();
                 foreach (var item in items)
                 {
                     Items.Add(item);
@@ -59,7 +60,7 @@ namespace MintIceApp.ViewModels
             SelectedItem = null;
         }
 
-        public Item SelectedItem
+        public Product SelectedItem
         {
             get => _selectedItem;
             set
@@ -71,10 +72,10 @@ namespace MintIceApp.ViewModels
 
         private async void OnAddItem(object obj)
         {
-            await Shell.Current.GoToAsync(nameof(NewItemPage));
+            await Shell.Current.GoToAsync(nameof(NewRecipePage));
         }
 
-        async void OnItemSelected(Item item)
+        async void OnItemSelected(Product item)
         {
             if (item == null)
                 return;

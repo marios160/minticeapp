@@ -42,18 +42,11 @@
             Icon="list_solid.png" />
         <ShellContent
             Title="Historia"
-            ContentTemplate="{DataTemplate local:AboutPage}"
+            ContentTemplate="{DataTemplate local:NewRecipePage}"
             Icon="calendar_alt_solid.png" />
     </TabBar>
 
-    <!--
-        If you would like to navigate to this content you can do so by calling
-        await Shell.Current.GoToAsync("//LoginPage");
-    -->
-    <ShellContent
-        ContentTemplate="{DataTemplate local:LoginPage}"
-        Route="LoginPage"
-        Shell.FlyoutBehavior="Disabled" />
+
 
 
 </Shell>

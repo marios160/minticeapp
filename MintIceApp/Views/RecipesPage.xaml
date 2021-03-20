@@ -32,7 +32,7 @@
                     <DataTemplate>
                         <StackLayout
                             Padding="10"
-                            x:DataType="model:Item"
+                            x:DataType="model:Recipe"
                             Orientation="Horizontal">
                             <Label
                                 Margin="0,0,0,00"
@@ -40,7 +40,7 @@
                                 HorizontalOptions="FillAndExpand"
                                 LineBreakMode="NoWrap"
                                 Style="{DynamicResource ListItemTextStyle}"
-                                Text="{Binding Text}" />
+                                Text="{Binding Name}" />
                             <ImageButton
                                 Margin="10,0,10,0"
                                 BackgroundColor="Transparent"

@@ -7,12 +7,12 @@ using Xamarin.Forms;
 
 namespace MintIceApp.ViewModels
 {
-    public class NewItemViewModel : BaseViewModel
+    public class NewRecipeViewModel : BaseViewModel
     {
         private string text;
         private string description;
 
-        public NewItemViewModel()
+        public NewRecipeViewModel()
         {
             SaveCommand = new Command(OnSave, ValidateSave);
             CancelCommand = new Command(OnCancel);
@@ -49,16 +49,16 @@ namespace MintIceApp.ViewModels
 
         private async void OnSave()
         {
-            Item newItem = new Item()
-            {
-                Id = Guid.NewGuid().ToString(),
-                Text = Text,
-                Description = Description
-            };
+            //Recipe newItem = new Recipe()
+            //{
+            //    Id = Guid.NewGuid().ToString(),
+            //    Text = Text,
+            //    Description = Description
+            //};
 
-            await DataStore.AddItemAsync(newItem);
+            //await DataStore.AddItemAsync(newItem);
 
-            // This will pop the current page off the navigation stack
+            //// This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");
         }
     }

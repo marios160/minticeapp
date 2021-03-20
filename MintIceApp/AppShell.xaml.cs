@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using MintIceApp.Services;
 using MintIceApp.ViewModels;
 using MintIceApp.Views;
 using Xamarin.Forms;
@@ -11,8 +12,9 @@ namespace MintIceApp
         public AppShell()
         {
             InitializeComponent();
+            new DataBase();
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
-            Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
+            Routing.RegisterRoute(nameof(NewRecipePage), typeof(NewRecipePage));
         }
 
     }

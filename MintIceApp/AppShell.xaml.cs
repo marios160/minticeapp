@@ -12,7 +12,6 @@ namespace MintIceApp
         public AppShell()
         {
             InitializeComponent();
-            new DataBase();
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
             Routing.RegisterRoute(nameof(NewRecipePage), typeof(NewRecipePage));
         }

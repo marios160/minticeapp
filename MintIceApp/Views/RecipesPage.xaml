@@ -6,8 +6,7 @@
     xmlns:local="clr-namespace:MintIceApp.ViewModels"
     xmlns:model="clr-namespace:MintIceApp.Models"
     x:Name="RecipesListPage"
-    Title="{Binding Title}"
-    IconImageSource="ice_cream_solid.png">
+    Title="{Binding Title}">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding AddItemCommand}" IconImageSource="plus.png" />

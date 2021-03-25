@@ -1,6 +1,7 @@
 ﻿using MintIceApp.Models;
 using SQLite;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace MintIceApp.Services

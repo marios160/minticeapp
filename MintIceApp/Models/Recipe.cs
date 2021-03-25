@@ -13,7 +13,6 @@ namespace MintIceApp.Models
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public bool Favourite { get; set; }
-        public List<Ingredient> Ingredients { get; set; }
 
         public Recipe()
         {

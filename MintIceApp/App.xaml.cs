@@ -13,6 +13,8 @@ namespace MintIceApp
         {
             InitializeComponent();
             MainPage = new AppShell();
+            DataBase db = new DataBase();
+
         }
 
         protected override void OnStart()

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,19 +7,21 @@ namespace MintIceApp.Models
 {
     public class Ingredient
     {
+        [PrimaryKey, Unique, AutoIncrement]
+        public int Id { get; set; }
         public int RecipeId { get; set; }
         public string Name { get; set; }
         public decimal Quantity { get; set; }
 
-        public Ingredient(int recipeId, string name, decimal quantity)
+        public Ingredient(string name, decimal quantity)
         {
-            RecipeId = recipeId;
             Name = name;
             Quantity = quantity;
         }
 
         public Ingredient()
         {
+            Quantity = 0.000m;
         }
     }
 }

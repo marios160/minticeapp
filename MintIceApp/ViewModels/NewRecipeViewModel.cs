@@ -14,22 +14,29 @@ namespace MintIceApp.ViewModels
     public class NewRecipeViewModel : BaseViewModel
     {
         private string recipeName;
+        private string recipeNote;
+        private int sum;
         private string ingredientName;
-        private string ingredientQuantity;
+        private int ingredientQuantity;
         private ObservableCollection<Ingredient> ingredients;
+        public Command SaveCommand { get; }
+        public Command AddCommand { get; }
+        public Command EditCommand { get; }
+        public Command RemoveCommand { get; }
 
         public NewRecipeViewModel()
         {
             Ingredients = new ObservableCollection<Ingredient>();
             SaveCommand = new Command(OnSave, ValidateSave);
             AddCommand = new Command(AddIngredient, ValidateAdd);
-            CancelCommand = new Command(OnCancel);
-            IngredientQuantity = "0.000";
-            this.PropertyChanged +=
-                (_, __) => SaveCommand.ChangeCanExecute();
-            this.PropertyChanged +=
-                (_, __) => AddCommand.ChangeCanExecute();
+            EditCommand = new Command(EditIngredient);
+            RemoveCommand = new Command<Ingredient>((ingredient) => RemoveIngredient(ingredient));
+            this.PropertyChanged += (_, __) => SaveCommand.ChangeCanExecute();
+            this.PropertyChanged += (_, __) => AddCommand.ChangeCanExecute();
+            this.PropertyChanged += (_, __) => EditCommand.ChangeCanExecute();
+            this.PropertyChanged += (_, __) => RemoveCommand.ChangeCanExecute();
         }
+
 
         private bool ValidateSave()
         {
@@ -37,7 +44,13 @@ namespace MintIceApp.ViewModels
         }
         private bool ValidateAdd()
         {
-            return !String.IsNullOrWhiteSpace(ingredientName) && !String.IsNullOrWhiteSpace(ingredientQuantity);
+            return !String.IsNullOrWhiteSpace(ingredientName);
+        }
+
+        public int Sum
+        {
+            get => sum;
+            set => SetProperty(ref sum, value);
         }
 
         public string RecipeName
@@ -45,12 +58,19 @@ namespace MintIceApp.ViewModels
             get => recipeName;
             set => SetProperty(ref recipeName, value);
         }
+
+        public string RecipeNote
+        {
+            get => recipeNote;
+            set => SetProperty(ref recipeNote, value);
+        }
+
         public string IngredientName
         {
             get => ingredientName;
             set => SetProperty(ref ingredientName, value);
         }
-        public string IngredientQuantity
+        public int IngredientQuantity
         {
             get => ingredientQuantity;
             set => SetProperty(ref ingredientQuantity, value);
@@ -62,28 +82,41 @@ namespace MintIceApp.ViewModels
             set => SetProperty(ref ingredients, value);
         }
 
-        public Command SaveCommand { get; }
-        public Command AddCommand { get; }
-        public Command CancelCommand { get; }
 
-        private async void OnCancel()
-        {
-            // This will pop the current page off the navigation stack
-            await Shell.Current.GoToAsync("..");
-        }
+
         private void AddIngredient()
         {
             Ingredient i = new Ingredient()
             {
                 Name = IngredientName,
-                Quantity = Decimal.Parse(IngredientQuantity.Replace('.',','))
+                Quantity = IngredientQuantity,
             };
+            Sum = 0;
             Ingredients.Add(i);
             IngredientName = "";
-            IngredientQuantity = "0.000";
-            Debug.WriteLine(i.Name);
+            IngredientQuantity = 0;
+            RefreshSum();
         }
 
+        private void RefreshSum()
+        {
+            foreach (Ingredient item in Ingredients)
+            {
+                Sum += item.Quantity;
+                Debug.WriteLine(item.Quantity);
+            }
+        }
+
+        private void EditIngredient()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void RemoveIngredient(Ingredient ingredient)
+        {
+            Ingredients.Remove(ingredient);
+            RefreshSum();
+        }
 
         private async void OnSave()
         {
@@ -98,7 +131,6 @@ namespace MintIceApp.ViewModels
                 IngredientRepository.Insert(ingredient);
             }
 
-            //await DataStore.AddItemAsync(newItem);
 
             //// This will pop the current page off the navigation stack
             await Shell.Current.GoToAsync("..");

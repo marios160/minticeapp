@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MintIceApp.ViewModels"
     xmlns:model="clr-namespace:MintIceApp.Models"
-    Title="New Item"
+    x:Name="NewRecipe"
+    Title="{Binding Title}"
     Shell.PresentationMode="Animated">
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding SaveCommand}" IconImageSource="save_solid.png" />
@@ -16,7 +17,7 @@
                 FontSize="Medium"
                 Placeholder="Nazwa receptury"
                 Text="{Binding RecipeName, Mode=TwoWay}" />
-            <BoxView />
+            <BoxView HeightRequest="20" />
             <Label Text="Dodaj składnik" />
             <StackLayout Orientation="Horizontal">
                 <Entry
@@ -26,17 +27,19 @@
                     HorizontalOptions="FillAndExpand"
                     Placeholder="Nazwa składnika"
                     Text="{Binding IngredientName, Mode=TwoWay}"
-                    WidthRequest="80" />
+                    WidthRequest="100" />
                 <Entry
                     x:Name="quantity"
                     Margin="0"
                     FontSize="Medium"
                     HorizontalOptions="FillAndExpand"
                     Keyboard="Telephone"
-                    Placeholder="0.000"
-                    Text="{Binding IngredientQuantity, Mode=TwoWay}"
-                    TextChanged="quantity_TextChanged" />
-                <Label Text="kg" />
+                    Placeholder="0"
+                    Text="{Binding IngredientQuantity, Mode=TwoWay}" />
+                <Label
+                    FontSize="Medium"
+                    Text="g"
+                    VerticalTextAlignment="Center" />
                 <ImageButton
                     x:Name="add"
                     Margin="10,0,10,0"
@@ -45,15 +48,19 @@
                     HeightRequest="50"
                     Source="plus.png" />
             </StackLayout>
-            <BoxView />
+            <BoxView HeightRequest="20" />
             <StackLayout Orientation="Horizontal">
                 <Label FontSize="Medium" Text="Suma" />
                 <Label
                     x:Name="sum"
                     FontSize="Medium"
-                    Text="0.000 kg" />
+                    Text="{Binding Sum}" />
+                <Label
+                    FontSize="Medium"
+                    Text="gramów"
+                    VerticalTextAlignment="Start" />
             </StackLayout>
-            <Frame>
+            <Frame Padding="5,5,5,5">
 
                 <ListView
                     x:Name="ingredients"
@@ -66,7 +73,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Orientation="Horizontal">
+                                <StackLayout Padding="0,5,0,0" Orientation="Horizontal">
                                     <Label
                                         x:Name="name"
                                         Margin="0"
@@ -78,31 +85,22 @@
                                         x:Name="quantity"
                                         Margin="0"
                                         FontSize="Medium"
-                                        HorizontalOptions="FillAndExpand"
+                                        HorizontalOptions="Fill"
                                         Text="{Binding Quantity, Mode=TwoWay}" />
-                                    <Label Text="kg" />
+                                    <Label
+                                        FontSize="Medium"
+                                        Text="g"
+                                        VerticalTextAlignment="Start" />
                                     <ImageButton
                                         x:Name="remove"
                                         Margin="10,0,10,0"
-                                        BackgroundColor="Transparent"
-                                        Clicked="remove_Clicked"
-                                        HeightRequest="40"
-                                        Source="trash_alt_solid.png">
-                                        <ImageButton.GestureRecognizers>
-                                            <TapGestureRecognizer CommandParameter="{Binding Id}" Tapped="remove_Clicked" />
-                                        </ImageButton.GestureRecognizers>
-                                    </ImageButton>
-                                    <ImageButton
-                                        x:Name="edit"
-                                        Margin="10,0,10,0"
-                                        BackgroundColor="Transparent"
-                                        Clicked="remove_Clicked"
-                                        HeightRequest="40"
-                                        Source="edit_solid.png">
-                                        <ImageButton.GestureRecognizers>
-                                            <TapGestureRecognizer CommandParameter="{Binding Id}" Tapped="remove_Clicked" />
-                                        </ImageButton.GestureRecognizers>
-                                    </ImageButton>
+                                        BackgroundColor="AliceBlue"
+                                        Command="{Binding RemoveCommand, Source={RelativeSource AncestorType={x:Type local:NewRecipeViewModel}}}"
+                                        CommandParameter="{Binding .}"
+                                        HeightRequest="30"
+                                        HorizontalOptions="FillAndExpand"
+                                        Source="trash_alt_solid.png"
+                                        VerticalOptions="FillAndExpand" />
                                 </StackLayout>
 
                             </ViewCell>
@@ -110,7 +108,9 @@
                     </ListView.ItemTemplate>
                 </ListView>
             </Frame>
-
+            <Frame Padding="0">
+                <Editor HeightRequest="160" />
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 

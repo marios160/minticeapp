@@ -22,26 +22,7 @@ namespace MintIceApp.Views
             BindingContext = this.vm;
         }
 
-        private void quantity_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            
-            Entry entry = (Entry)sender;
-            if (e.NewTextValue.Length > 5)
-            {
-                string value = entry.Text;
-                value = value.Remove(0, 2);
-                value = value.Insert(1, ".");
-                entry.Text = value;
-            } 
-            else if(e.NewTextValue.Length < 5)
-            {
-                string value = entry.Text;
-                value = value.Remove(1, 1);
-                value = "0" + value;
-                value = value.Insert(1, ".");
-                entry.Text = value;
-            }
-        }
+        
 
         private void ingredients_ItemTapped(object sender, ItemTappedEventArgs e)
         {
@@ -51,10 +32,15 @@ namespace MintIceApp.Views
 
         private void remove_Clicked(object sender, EventArgs e)
         {
-            int id = Convert.ToInt32((e as ClickedEventArgs).Parameter);
-            Debug.WriteLine(id);
 
         }
 
+        private void remove_Tapped(object sender, EventArgs e)
+        {
+
+            int i = Convert.ToInt32((e as TappedEventArgs).Parameter);
+            Debug.WriteLine(i);
+            vm.Ingredients.RemoveAt(i);
+        }
     }
 }

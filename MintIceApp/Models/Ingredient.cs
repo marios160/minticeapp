@@ -11,9 +11,9 @@ namespace MintIceApp.Models
         public int Id { get; set; }
         public int RecipeId { get; set; }
         public string Name { get; set; }
-        public decimal Quantity { get; set; }
-
-        public Ingredient(string name, decimal quantity)
+        public int Quantity { get; set; }
+        
+        public Ingredient(string name, int quantity)
         {
             Name = name;
             Quantity = quantity;
@@ -21,7 +21,7 @@ namespace MintIceApp.Models
 
         public Ingredient()
         {
-            Quantity = 0.000m;
+            Quantity = 0;
         }
     }
 }

@@ -10,6 +10,7 @@ using Xamarin.Forms.Xaml;
 using MintIceApp.Models;
 using MintIceApp.Views;
 using MintIceApp.ViewModels;
+using MintIceApp.Repositories;
 
 namespace MintIceApp.Views
 {
@@ -32,7 +33,11 @@ namespace MintIceApp.Views
 
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            _viewModel.Items.Clear();
+            foreach (var item in RecipeRepository.FindByName(e.NewTextValue).Result)
+            {
+                _viewModel.Items.Add(item);
+            }
         }
     }
 }

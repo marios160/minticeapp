@@ -15,9 +15,9 @@ namespace MintIceApp.Services
         public DataBase()
         {
             db = new SQLiteAsyncConnection(DbPath);
-            //db.DropTable<Recipe>();
-            //db.DropTable<Product>();
-            //db.DropTable<Ingredient>();
+            //db.DropTableAsync<Recipe>();
+            //db.DropTableAsync<Product>();
+            //db.DropTableAsync<Ingredient>();
             db.CreateTableAsync<Recipe>();
             db.CreateTableAsync<Product>();
             db.CreateTableAsync<Ingredient>();

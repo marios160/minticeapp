@@ -8382,25 +8382,28 @@ namespace MintIceApp.Droid
 			public const int plus = 2131165307;
 			
 			// aapt resource value: 0x7F07007C
-			public const int print_solid = 2131165308;
+			public const int plus_solid = 2131165308;
 			
 			// aapt resource value: 0x7F07007D
-			public const int save_solid = 2131165309;
+			public const int print_solid = 2131165309;
 			
 			// aapt resource value: 0x7F07007E
-			public const int star_regular = 2131165310;
+			public const int save_solid = 2131165310;
 			
 			// aapt resource value: 0x7F07007F
-			public const int star_solid = 2131165311;
+			public const int star_regular = 2131165311;
 			
 			// aapt resource value: 0x7F070080
-			public const int tooltip_frame_dark = 2131165312;
+			public const int star_solid = 2131165312;
 			
 			// aapt resource value: 0x7F070081
-			public const int tooltip_frame_light = 2131165313;
+			public const int tooltip_frame_dark = 2131165313;
 			
 			// aapt resource value: 0x7F070082
-			public const int trash_alt_solid = 2131165314;
+			public const int tooltip_frame_light = 2131165314;
+			
+			// aapt resource value: 0x7F070083
+			public const int trash_alt_solid = 2131165315;
 			
 			static Drawable()
 			{

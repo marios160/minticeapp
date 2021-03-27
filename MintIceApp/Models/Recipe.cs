@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using MintIceApp.Repositories;
 using SQLite;
 
 namespace MintIceApp.Models
@@ -20,6 +21,11 @@ namespace MintIceApp.Models
             this.CreatedAt = new DateTime();
             this.UpdatedAt = new DateTime();
             this.Favourite = false;
+        }
+
+        public List<Ingredient> GetIngredients()
+        {
+            return IngredientRepository.FindAllByRecipeId(Id).Result;
         }
     }
 }

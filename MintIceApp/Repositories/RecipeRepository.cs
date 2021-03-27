@@ -19,7 +19,7 @@ namespace MintIceApp.Repositories
 
         internal static Task<List<Recipe>> FindAll()
         {
-            return DataBase.db.Table<Recipe>().ToListAsync();
+            return DataBase.db.Table<Recipe>().OrderByDescending(r => r.Favourite).ToListAsync();
         }
 
         internal static Task<Recipe> FindOneById(int id)

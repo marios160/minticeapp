@@ -8,27 +8,68 @@ using Xamarin.Forms;
 using MintIceApp.Models;
 using MintIceApp.Views;
 using MintIceApp.Repositories;
+using System.Collections.Generic;
 
 namespace MintIceApp.ViewModels
 {
     public class RecipesViewModel : BaseViewModel
     {
         private Recipe _selectedItem;
+        private string image;
+        private ObservableCollection<Recipe> items;
 
-        public ObservableCollection<Recipe> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
+        public Command<Recipe> EditCommand { get; }
+        public Command<Recipe> RemoveCommand { get; }
+        public Command<Recipe> FavouriteCommand { get; }
         public Command<Recipe> ItemTapped { get; }
 
         public RecipesViewModel()
         {
             Title = "Receptury";
             Items = new ObservableCollection<Recipe>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
+            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            EditCommand = new Command<Recipe>((recipe) => EditRecipe(recipe));
+            RemoveCommand = new Command<Recipe>((recipe) => RemoveRecipe(recipe));
+            FavouriteCommand = new Command<Recipe>((recipe) => FavouriteRecipe(recipe));
             ItemTapped = new Command<Recipe>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
+        }
+
+        private void FavouriteRecipe(Recipe recipe)
+        {
+            int i = Items.IndexOf(recipe);
+            Items[i].Favourite = !Items[i].Favourite;
+            RecipeRepository.Insert(Items[i]);
+            if (Items[i].Favourite)
+            {
+                Image = "star_solid.png";
+            }
+            else
+            {
+                Image = "star_regular.png";
+            }
+            OnAppearing();
+        }
+
+        private void RemoveRecipe(Recipe recipe)
+        {
+            Items.Remove(recipe);
+            RecipeRepository.Delete(recipe);
+        }
+
+        private async void EditRecipe(Recipe recipe)
+        {
+            await Shell.Current.GoToAsync($"{nameof(NewRecipePage)}?RecipeId={recipe.Id}");
+        }
+
+        public ObservableCollection<Recipe> Items
+        {
+            get => items;
+            set => SetProperty(ref items, value);
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -38,8 +79,7 @@ namespace MintIceApp.ViewModels
             try
             {
                 Items.Clear();
-                var items = await RecipeRepository.FindAll();
-                foreach (var item in items)
+                foreach (var item in RecipeRepository.FindAll().Result)
                 {
                     Items.Add(item);
                 }
@@ -69,6 +109,11 @@ namespace MintIceApp.ViewModels
                 OnItemSelected(value);
             }
         }
+        public string Image
+        {
+            get => image;
+            set => SetProperty(ref image, value);   
+        }
 
         private async void OnAddItem(object obj)
         {
@@ -81,7 +126,7 @@ namespace MintIceApp.ViewModels
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(NewRecipePage)}?RecipeId={item.Id}");
         }
     }
 }

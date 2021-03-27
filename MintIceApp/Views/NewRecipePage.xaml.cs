@@ -24,23 +24,5 @@ namespace MintIceApp.Views
 
         
 
-        private void ingredients_ItemTapped(object sender, ItemTappedEventArgs e)
-        {
-            vm.Ingredients.RemoveAt(e.ItemIndex);
-        }
-
-
-        private void remove_Clicked(object sender, EventArgs e)
-        {
-
-        }
-
-        private void remove_Tapped(object sender, EventArgs e)
-        {
-
-            int i = Convert.ToInt32((e as TappedEventArgs).Parameter);
-            Debug.WriteLine(i);
-            vm.Ingredients.RemoveAt(i);
-        }
     }
 }

@@ -66,7 +66,6 @@
                     x:Name="ingredients"
                     CachingStrategy="RecycleElement"
                     HasUnevenRows="True"
-                    ItemTapped="ingredients_ItemTapped"
                     ItemsSource="{Binding Ingredients, Mode=TwoWay}">
 
 
@@ -94,11 +93,11 @@
                                     <ImageButton
                                         x:Name="remove"
                                         Margin="10,0,10,0"
-                                        BackgroundColor="AliceBlue"
+                                        BackgroundColor="Transparent"
                                         Command="{Binding RemoveCommand, Source={RelativeSource AncestorType={x:Type local:NewRecipeViewModel}}}"
                                         CommandParameter="{Binding .}"
                                         HeightRequest="30"
-                                        HorizontalOptions="FillAndExpand"
+                                        HorizontalOptions="EndAndExpand"
                                         Source="trash_alt_solid.png"
                                         VerticalOptions="FillAndExpand" />
                                 </StackLayout>
@@ -109,7 +108,7 @@
                 </ListView>
             </Frame>
             <Frame Padding="0">
-                <Editor HeightRequest="160" />
+                <Editor HeightRequest="160" Placeholder="Notatki" />
             </Frame>
         </StackLayout>
     </ContentPage.Content>

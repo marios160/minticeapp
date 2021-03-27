@@ -126,7 +126,7 @@ namespace MintIceApp.ViewModels
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            await Shell.Current.GoToAsync($"{nameof(NewRecipePage)}?RecipeId={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?RecipeId={item.Id}");
         }
     }
 }

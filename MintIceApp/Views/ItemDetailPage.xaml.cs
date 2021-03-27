@@ -6,10 +6,17 @@ namespace MintIceApp.Views
 {
     public partial class ItemDetailPage : ContentPage
     {
+        ItemDetailViewModel vm;
         public ItemDetailPage()
         {
             InitializeComponent();
-            BindingContext = new ItemDetailViewModel();
+            vm = new ItemDetailViewModel();
+            BindingContext = vm;
+        }
+
+        private void Entry_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            vm.RefreshQuantities();
         }
     }
 }

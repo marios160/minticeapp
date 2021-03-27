@@ -17,6 +17,7 @@
             <StackLayout Padding="15" Spacing="3">
                 <Entry
                     FontSize="Medium"
+                    Keyboard="Chat"
                     Placeholder="Nazwa receptury"
                     Text="{Binding RecipeName, Mode=TwoWay}" />
                 <BoxView HeightRequest="20" />
@@ -27,6 +28,7 @@
                         Margin="0"
                         FontSize="Medium"
                         HorizontalOptions="FillAndExpand"
+                        Keyboard="Chat"
                         Placeholder="Nazwa składnika"
                         Text="{Binding IngredientName, Mode=TwoWay}"
                         WidthRequest="100" />
@@ -95,7 +97,7 @@
                                             VerticalTextAlignment="Start" />
                                         <ImageButton
                                             x:Name="remove"
-                                            Margin="10,0,10,0"
+                                            Margin="10,0,10,10"
                                             BackgroundColor="Transparent"
                                             Command="{Binding RemoveCommand, Source={RelativeSource AncestorType={x:Type local:NewRecipeViewModel}}}"
                                             CommandParameter="{Binding .}"

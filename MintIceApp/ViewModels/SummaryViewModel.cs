@@ -8,27 +8,34 @@ using Xamarin.Forms;
 using MintIceApp.Models;
 using MintIceApp.Views;
 using MintIceApp.Repositories;
+using Plugin.Toast;
 
 namespace MintIceApp.ViewModels
 {
     public class SummaryViewModel : BaseViewModel
     {
-        private Product _selectedItem;
 
         public ObservableCollection<Product> Items { get; }
         public Command LoadItemsCommand { get; }
         public Command AddItemCommand { get; }
+        public Command RemoveCommand { get; }
         public Command<Product> ItemTapped { get; }
 
+
+        private string date;
         public SummaryViewModel()
         {
             Title = "Podsumowanie dnia";
             Items = new ObservableCollection<Product>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            ItemTapped = new Command<Product>((product) => OnItemSelected(product));
+            RemoveCommand = new Command<Product>((product) => RemoveProduct(product));
+            this.PropertyChanged += (_, __) => RemoveCommand.ChangeCanExecute();
 
-            ItemTapped = new Command<Product>(OnItemSelected);
 
             AddItemCommand = new Command(OnAddItem);
+
+            Date = DateTime.Now.ToString("D");
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -41,6 +48,7 @@ namespace MintIceApp.ViewModels
                 var items = await ProductRepository.FindAll();
                 foreach (var item in items)
                 {
+                    item.Quantity = item.Quantity / 1000;
                     Items.Add(item);
                 }
             }
@@ -54,25 +62,22 @@ namespace MintIceApp.ViewModels
             }
         }
 
+        private void RemoveProduct(Product product)
+        {
+            Items.Remove(product);
+            ProductRepository.Delete(product);
+            CrossToastPopUp.Current.ShowToastMessage("Usunięto produkt");
+        }
+
+        public string Date
+        {
+            get => date;
+            set => SetProperty(ref date, value);
+        }
+
         public void OnAppearing()
         {
             IsBusy = true;
-            SelectedItem = null;
-        }
-
-        public Product SelectedItem
-        {
-            get => _selectedItem;
-            set
-            {
-                SetProperty(ref _selectedItem, value);
-                OnItemSelected(value);
-            }
-        }
-
-        private async void OnAddItem(object obj)
-        {
-            await Shell.Current.GoToAsync(nameof(NewRecipePage));
         }
 
         async void OnItemSelected(Product item)
@@ -81,7 +86,14 @@ namespace MintIceApp.ViewModels
                 return;
 
             // This will push the ItemDetailPage onto the navigation stack
-            //await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?{nameof(ItemDetailViewModel.ItemId)}={item.Id}");
+            await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?ProductId={item.Id}");
         }
+
+        private async void OnAddItem(object obj)
+        {
+            await Shell.Current.GoToAsync(nameof(NewRecipePage));
+        }
+
+        
     }
 }

@@ -21,6 +21,10 @@ namespace MintIceApp.Repositories
         {
             return DataBase.db.Table<Product>().ToListAsync();
         }
+        internal static Task<List<Product>> FindAllByCreatedAt()
+        {
+            return DataBase.db.Table<Product>().Where(p => p.CreatedAt.ToString("d") == DateTime.Now.ToString("d")).ToListAsync();
+        }
 
         internal static Task<Product> FindOneById(int id)
         {

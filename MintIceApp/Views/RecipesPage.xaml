@@ -95,7 +95,7 @@
                                     WidthRequest="45" />
                                 <StackLayout.GestureRecognizers>
                                     <TapGestureRecognizer
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}, Path=ItemTapped}"
+                                        Command="{Binding ItemTapped, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
                                         CommandParameter="{Binding .}"
                                         NumberOfTapsRequired="1" />
                                 </StackLayout.GestureRecognizers>

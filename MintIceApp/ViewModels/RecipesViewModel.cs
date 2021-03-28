@@ -9,12 +9,12 @@ using MintIceApp.Models;
 using MintIceApp.Views;
 using MintIceApp.Repositories;
 using System.Collections.Generic;
+using Plugin.Toast;
 
 namespace MintIceApp.ViewModels
 {
     public class RecipesViewModel : BaseViewModel
     {
-        private Recipe _selectedItem;
         private string image;
         private ObservableCollection<Recipe> items;
 
@@ -34,7 +34,7 @@ namespace MintIceApp.ViewModels
             EditCommand = new Command<Recipe>((recipe) => EditRecipe(recipe));
             RemoveCommand = new Command<Recipe>((recipe) => RemoveRecipe(recipe));
             FavouriteCommand = new Command<Recipe>((recipe) => FavouriteRecipe(recipe));
-            ItemTapped = new Command<Recipe>(OnItemSelected);
+            ItemTapped = new Command<Recipe>((recipe) => OnItemSelected(recipe));
 
             AddItemCommand = new Command(OnAddItem);
         }
@@ -47,10 +47,12 @@ namespace MintIceApp.ViewModels
             if (Items[i].Favourite)
             {
                 Image = "star_solid.png";
+                CrossToastPopUp.Current.ShowToastMessage("Dodano do ulubionych");
             }
             else
             {
                 Image = "star_regular.png";
+                CrossToastPopUp.Current.ShowToastMessage("Usunięto z ulubionych");
             }
             OnAppearing();
         }
@@ -59,6 +61,8 @@ namespace MintIceApp.ViewModels
         {
             Items.Remove(recipe);
             RecipeRepository.Delete(recipe);
+            CrossToastPopUp.Current.ShowToastMessage("Usunięto recepturę");
+
         }
 
         private async void EditRecipe(Recipe recipe)
@@ -97,18 +101,9 @@ namespace MintIceApp.ViewModels
         public void OnAppearing()
         {
             IsBusy = true;
-            SelectedItem = null;
         }
 
-        public Recipe SelectedItem
-        {
-            get => _selectedItem;
-            set
-            {
-                SetProperty(ref _selectedItem, value);
-                OnItemSelected(value);
-            }
-        }
+        
         public string Image
         {
             get => image;

@@ -18,8 +18,8 @@ namespace MintIceApp.Models
 
         public Recipe()
         {
-            this.CreatedAt = new DateTime();
-            this.UpdatedAt = new DateTime();
+            this.CreatedAt = DateTime.Now;
+            this.UpdatedAt = DateTime.Now;
             this.Favourite = false;
         }
 

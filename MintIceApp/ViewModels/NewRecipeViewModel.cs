@@ -7,6 +7,7 @@ using System.Windows.Input;
 using MintIceApp.Models;
 using MintIceApp.Repositories;
 using MintIceApp.Views;
+using Plugin.Toast;
 using Xamarin.Forms;
 
 namespace MintIceApp.ViewModels
@@ -165,7 +166,8 @@ namespace MintIceApp.ViewModels
                 ingredient.RecipeId = Recipe.Id;
                 IngredientRepository.Insert(ingredient);
             }
-           
+
+            CrossToastPopUp.Current.ShowToastMessage("Zapisano recepturę");
 
 
             //// This will pop the current page off the navigation stack

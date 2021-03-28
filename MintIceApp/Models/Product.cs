@@ -19,14 +19,14 @@ namespace MintIceApp.Models
         {
             Quantity = quantity;
             Name = name;
-            CreatedAt = new DateTime();
-            UpdatedAt = new DateTime();
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
         }
 
         public Product()
         {
-            CreatedAt = new DateTime();
-            UpdatedAt = new DateTime();
+            CreatedAt = DateTime.Now;
+            UpdatedAt = DateTime.Now;
         }
     }
 }

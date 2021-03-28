@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using MintIceApp.Models;
 using MintIceApp.Repositories;
+using Plugin.Toast;
 using Xamarin.Forms;
 
 namespace MintIceApp.ViewModels
 {
     [QueryProperty(nameof(RecipeId), nameof(RecipeId))]
+    [QueryProperty(nameof(ProductId), nameof(ProductId))]
 
     public class ItemDetailViewModel : BaseViewModel
     {
@@ -16,16 +19,21 @@ namespace MintIceApp.ViewModels
         private string recipeNote;
         private int sum;
         private ObservableCollection<Ingredient> ingredients;
-        private ObservableCollection<Ingredient> BaseIngredients;
         private string recipeId;
+        private string productId;
         private Recipe recipe;
+        private Product product;
 
         public Command SaveCommand { get; }
+        public Command PrintCommand { get; }
 
         public ItemDetailViewModel()
         {
+            Title = "Nowy produkt";
+            Ingredients = new ObservableCollection<Ingredient>();
             SaveCommand = new Command(OnSave);
-            this.PropertyChanged += (_, __) => SaveCommand.ChangeCanExecute();
+            PrintCommand = new Command(OnPrint);
+            this.PropertyChanged += (_, __) => PrintCommand.ChangeCanExecute();
         }
 
         public string RecipeId
@@ -40,8 +48,26 @@ namespace MintIceApp.ViewModels
                 foreach (var item in Recipe.GetIngredients())
                 {
                     Ingredients.Add(item);
-                    BaseIngredients.Add(item);
                 }
+
+            }
+        }
+        public string ProductId
+        {
+            get { return productId; }
+            set
+            {
+                productId = value;
+                Product = ProductRepository.FindOneById(Convert.ToInt32(value)).Result;
+                Recipe = RecipeRepository.FindOneById(Product.RecipeId).Result;
+                RecipeName = Recipe.Name;
+                RecipeNote = Recipe.Note;
+                Sum = Convert.ToInt32(Product.Quantity);
+                foreach (var item in Recipe.GetIngredients())
+                {
+                    Ingredients.Add(item);
+                }
+                RefreshQuantities();
 
             }
         }
@@ -50,8 +76,13 @@ namespace MintIceApp.ViewModels
             get => recipe;
             set => SetProperty(ref recipe, value);
         }
+        public Product Product
+        {
+            get => product;
+            set => SetProperty(ref product, value);
+        }
 
-        public int Sum
+    public int Sum
         {
             get => sum;
             set => SetProperty(ref sum, value);
@@ -77,24 +108,37 @@ namespace MintIceApp.ViewModels
 
         public void RefreshQuantities()
         {
-            for (int i = 0; i < Ingredients.Count; i++)
+            if(Recipe != null)
             {
-                Ingredients[i].Quantity = BaseIngredients[i].Quantity * sum / 1000;
+                Ingredients.Clear();
+                foreach (var item in Recipe.GetIngredients())
+                {
+                    item.Quantity = (item.Quantity * sum) / 1000;
+                    Ingredients.Add(item);
+                }
             }
-            
         }
 
+        private async void OnPrint()
+        {
+            CrossToastPopUp.Current.ShowToastMessage("Drukowanie...");
+
+        }
         private async void OnSave()
         {
-            Product product = new Product();
-            product.Name = RecipeName;
-            product.Quantity = Sum;
-            product.RecipeId = Recipe.Id;
-            ProductRepository.Insert(product);
+            if (Product == null)
+            {
+                Product = new Product();
+            }
+            Product.Name = RecipeName;
+            Product.Quantity = Sum;
+            Product.RecipeId = Recipe.Id;
+            ProductRepository.Insert(Product);
+            CrossToastPopUp.Current.ShowToastMessage("Zapisano produkt");
 
 
             //// This will pop the current page off the navigation stack
-            await Shell.Current.GoToAsync("..");
+            //await Shell.Current.GoToAsync("..");
         }
 
 

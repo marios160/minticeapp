@@ -3,62 +3,76 @@
     x:Class="MintIceApp.Views.ItemDetailPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="{Binding Title}">
+    xmlns:local="clr-namespace:MintIceApp.ViewModels"
+    xmlns:model="clr-namespace:MintIceApp.Models"
+    x:Name="NewProduct"
+    Title="{Binding Title}"
+    Shell.PresentationMode="Animated">
     <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding PrintCommand}" IconImageSource="print_solid.png" />
         <ToolbarItem Command="{Binding SaveCommand}" IconImageSource="save_solid.png" />
     </ContentPage.ToolbarItems>
-    <StackLayout Padding="15" Spacing="20">
-        <Label FontSize="Medium" Text="{Binding RecipeName}" />
-        <StackLayout Orientation="Horizontal">
-            <Label FontSize="Medium" Text="Ilość: " />
-            <Entry
-                FontSize="Small"
-                Keyboard="Telephone"
-                Text="{Binding Sum}"
-                TextChanged="Entry_TextChanged" />
-            <Label FontSize="Medium" Text="g" />
+    <ContentPage.Content>
+        <StackLayout Padding="15" Spacing="20">
+            <Label FontSize="Medium" Text="{Binding RecipeName}" />
+            <StackLayout Orientation="Horizontal">
+                <Label
+                    FontSize="Medium"
+                    Text="Ilość: "
+                    VerticalTextAlignment="Center" />
+                <Entry
+                    FontSize="Medium"
+                    Keyboard="Telephone"
+                    Text="{Binding Sum}"
+                    TextChanged="Entry_TextChanged"
+                    WidthRequest="60" />
+                <Label
+                    FontSize="Medium"
+                    Text="g"
+                    VerticalTextAlignment="Center" />
+            </StackLayout>
+            <Frame Padding="5,5,5,5">
+                <ListView
+                    x:Name="ingredients"
+                    CachingStrategy="RecycleElement"
+                    HasUnevenRows="True"
+                    HeightRequest="250"
+                    ItemsSource="{Binding Ingredients, Mode=TwoWay}"
+                    SelectionMode="None">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="0,5,0,0" Orientation="Horizontal">
+                                    <Label
+                                        x:Name="name"
+                                        Margin="0"
+                                        FontSize="Medium"
+                                        HorizontalOptions="FillAndExpand"
+                                        Text="{Binding Name, Mode=TwoWay}"
+                                        WidthRequest="80" />
+                                    <Label
+                                        x:Name="quantity"
+                                        Margin="0"
+                                        FontSize="Medium"
+                                        HorizontalOptions="Fill"
+                                        Text="{Binding Quantity, Mode=TwoWay}" />
+                                    <Label
+                                        FontSize="Medium"
+                                        Text="g"
+                                        VerticalTextAlignment="Start" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Frame>
+            <Frame Padding="0">
+                <Label
+                    HeightRequest="160"
+                    LineBreakMode="WordWrap"
+                    Text="{Binding RecipeNote, Mode=TwoWay}" />
+            </Frame>
         </StackLayout>
-        <Frame Padding="5,5,5,5">
-            <ListView
-                x:Name="ingredients"
-                CachingStrategy="RecycleElement"
-                HasUnevenRows="True"
-                HeightRequest="250"
-                ItemsSource="{Binding Ingredients, Mode=TwoWay}"
-                SelectionMode="None">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="0,5,0,0" Orientation="Horizontal">
-                                <Label
-                                    x:Name="name"
-                                    Margin="0"
-                                    FontSize="Medium"
-                                    HorizontalOptions="FillAndExpand"
-                                    Text="{Binding Name, Mode=TwoWay}"
-                                    WidthRequest="80" />
-                                <Label
-                                    x:Name="quantity"
-                                    Margin="0"
-                                    FontSize="Medium"
-                                    HorizontalOptions="Fill"
-                                    Text="{Binding Quantity, Mode=TwoWay}" />
-                                <Label
-                                    FontSize="Medium"
-                                    Text="g"
-                                    VerticalTextAlignment="Start" />
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </Frame>
-        <Frame Padding="0">
-            <Label
-                HeightRequest="160"
-                LineBreakMode="WordWrap"
-                Text="{Binding RecipeNote, Mode=TwoWay}" />
-        </Frame>
-    </StackLayout>
+    </ContentPage.Content>
 
 </ContentPage>

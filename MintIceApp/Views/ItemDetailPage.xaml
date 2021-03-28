@@ -48,8 +48,7 @@
                                         Margin="0"
                                         FontSize="Medium"
                                         HorizontalOptions="FillAndExpand"
-                                        Text="{Binding Name, Mode=TwoWay}"
-                                        WidthRequest="80" />
+                                        Text="{Binding Name, Mode=TwoWay}" />
                                     <Label
                                         x:Name="quantity"
                                         Margin="0"

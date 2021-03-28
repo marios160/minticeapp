@@ -29,7 +29,7 @@ namespace MintIceApp.ViewModels
 
         public ItemDetailViewModel()
         {
-            Title = "Nowy produkt";
+            Title = "Dodaj produkt";
             Ingredients = new ObservableCollection<Ingredient>();
             SaveCommand = new Command(OnSave);
             PrintCommand = new Command(OnPrint);
@@ -68,6 +68,7 @@ namespace MintIceApp.ViewModels
                     Ingredients.Add(item);
                 }
                 RefreshQuantities();
+                Title = "Edytuj produkt";
 
             }
         }

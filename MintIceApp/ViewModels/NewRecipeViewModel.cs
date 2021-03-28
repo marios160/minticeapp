@@ -33,7 +33,7 @@ namespace MintIceApp.ViewModels
         public NewRecipeViewModel()
         {
 
-
+            Title = "Dodaj recepturę";
             Ingredients = new ObservableCollection<Ingredient>();
             SaveCommand = new Command(OnSave, ValidateSave);
             AddCommand = new Command(AddIngredient, ValidateAdd);
@@ -71,6 +71,7 @@ namespace MintIceApp.ViewModels
                     Ingredients.Add(item);
                 }
                 RefreshSum();
+                Title = "Edytuj recepturę";
                 
             }
         }

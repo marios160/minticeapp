@@ -178,4 +178,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\plus_solid.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\cogs_solid.png" />
+  </ItemGroup>
 </Project>

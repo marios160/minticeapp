@@ -42,8 +42,12 @@
             Icon="list_solid.png" />
         <ShellContent
             Title="Historia"
-            ContentTemplate="{DataTemplate local:NewRecipePage}"
+            ContentTemplate="{DataTemplate local:SummaryPage}"
             Icon="calendar_alt_solid.png" />
+        <ShellContent
+            Title="Opcje"
+            ContentTemplate="{DataTemplate local:NewRecipePage}"
+            Icon="cogs_solid.png" />
     </TabBar>
 
 

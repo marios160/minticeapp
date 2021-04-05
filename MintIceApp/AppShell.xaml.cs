@@ -14,6 +14,7 @@ namespace MintIceApp
             InitializeComponent();
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
             Routing.RegisterRoute(nameof(NewRecipePage), typeof(NewRecipePage));
+            Routing.RegisterRoute(nameof(SummaryPage), typeof(SummaryPage));
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿using MintIceApp.Models;
 using MintIceApp.Repositories;
+using MintIceApp.Views;
 using Plugin.Toast;
 using System;
 using System.Collections.Generic;
@@ -19,12 +20,14 @@ namespace MintIceApp.ViewModels
         private ObservableCollection<HistoryItem> items;
         public Command FilteringCommand { get; }
         public Command LoadItemsCommand { get; }
+        public Command<HistoryItem> ItemTapped { get; }
 
         public HistoryViewModel()
         {
             Title = "Historia produkcji";
             FilteringCommand = new Command(async () => await FilteringStartAsync());
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            ItemTapped = new Command<HistoryItem>((item) => OnItemSelected(item));
             this.PropertyChanged += (_, __) => FilteringCommand.ChangeCanExecute();
             Filtering = false;
             Items = new ObservableCollection<HistoryItem>();
@@ -85,7 +88,13 @@ namespace MintIceApp.ViewModels
         {
             IsBusy = true;
         }
-
+        async void OnItemSelected(HistoryItem item)
+        {
+            if (item == null)
+                return;
+            // This will push the ItemDetailPage onto the navigation stack
+            await Shell.Current.GoToAsync($"{nameof(SummaryPage)}?DateString={item.date.ToString("d")}");
+        }
         private async Task FilteringStartAsync()
         {
             Filtering = !Filtering;

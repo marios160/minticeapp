@@ -22,10 +22,10 @@ namespace MintIceApp.Repositories
         {
             return DataBase.db.Table<Product>().OrderBy(p => p.CreatedAt).ToListAsync();
         }
-        internal static Task<List<Product>> FindAllByCreatedAt()
+        internal static Task<List<Product>> FindAllByCreatedAt(DateTime date)
         {
-            DateTime start = DateTime.Today.Date + new TimeSpan(0, 0, 0);
-            DateTime stop = DateTime.Today.Date + new TimeSpan(59, 59, 59);
+            DateTime start = date + new TimeSpan(0, 0, 0);
+            DateTime stop = date + new TimeSpan(59, 59, 59);
             return DataBase.db.Table<Product>().Where(p => p.CreatedAt >= start && p.CreatedAt <= stop).OrderBy(p => p.CreatedAt).ToListAsync();
         }
         internal static Task<List<Product>> FindAllByFiltering(DateTime dateFrom, DateTime dateTo)

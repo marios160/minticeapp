@@ -66,7 +66,12 @@
                                     HorizontalOptions="EndAndExpand"
                                     Text="{Binding quantity}" />
                                 <Label FontSize="Medium" Text="kg" />
-
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding ItemTapped, Source={RelativeSource AncestorType={x:Type local:HistoryViewModel}}}"
+                                        CommandParameter="{Binding .}"
+                                        NumberOfTapsRequired="1" />
+                                </StackLayout.GestureRecognizers>
                             </StackLayout>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

@@ -12,6 +12,7 @@ using Plugin.Toast;
 
 namespace MintIceApp.ViewModels
 {
+    [QueryProperty(nameof(DateString), nameof(DateString))]
     public class SummaryViewModel : BaseViewModel
     {
 
@@ -22,7 +23,8 @@ namespace MintIceApp.ViewModels
         public Command<Product> ItemTapped { get; }
 
 
-        private string date;
+        private DateTime date;
+        private string dateString;
         public SummaryViewModel()
         {
             Title = "Podsumowanie dnia";
@@ -35,7 +37,7 @@ namespace MintIceApp.ViewModels
 
             AddItemCommand = new Command(OnAddItem);
 
-            Date = DateTime.Now.ToString("D");
+            //Date = DateTime.Now.ToString("D");
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -45,7 +47,7 @@ namespace MintIceApp.ViewModels
             try
             {
                 Items.Clear();
-                var items = await ProductRepository.FindAllByCreatedAt();
+                var items = await ProductRepository.FindAllByCreatedAt(Date);
                 foreach (var item in items)
                 {
                     item.Quantity = item.Quantity / 1000;
@@ -69,10 +71,18 @@ namespace MintIceApp.ViewModels
             CrossToastPopUp.Current.ShowToastMessage("Usunięto produkt");
         }
 
-        public string Date
+        public DateTime Date
         {
             get => date;
             set => SetProperty(ref date, value);
+        }
+        public string DateString
+        {
+            get { return dateString; }
+            set {
+                dateString = value;
+                Date = Convert.ToDateTime(value);
+            }
         }
 
         public void OnAppearing()

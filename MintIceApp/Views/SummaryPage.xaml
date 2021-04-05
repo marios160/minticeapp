@@ -18,7 +18,7 @@
     <StackLayout>
 
         <Frame>
-            <Label FontSize="Large" Text="{Binding Date}" />
+            <Label FontSize="Large" Text="{Binding Date, StringFormat='{0:D}'}" />
         </Frame>
         <RefreshView
             x:DataType="local:SummaryViewModel"

@@ -45,7 +45,7 @@ namespace MintIceApp.ViewModels
             try
             {
                 Items.Clear();
-                var items = await ProductRepository.FindAll();
+                var items = await ProductRepository.FindAllByCreatedAt();
                 foreach (var item in items)
                 {
                     item.Quantity = item.Quantity / 1000;

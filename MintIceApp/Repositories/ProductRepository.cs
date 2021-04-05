@@ -2,6 +2,7 @@
 using MintIceApp.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,11 +20,19 @@ namespace MintIceApp.Repositories
 
         internal static Task<List<Product>> FindAll()
         {
-            return DataBase.db.Table<Product>().ToListAsync();
+            return DataBase.db.Table<Product>().OrderBy(p => p.CreatedAt).ToListAsync();
         }
         internal static Task<List<Product>> FindAllByCreatedAt()
         {
-            return DataBase.db.Table<Product>().Where(p => p.CreatedAt.ToString("d") == DateTime.Now.ToString("d")).ToListAsync();
+            DateTime start = DateTime.Today.Date + new TimeSpan(0, 0, 0);
+            DateTime stop = DateTime.Today.Date + new TimeSpan(59, 59, 59);
+            return DataBase.db.Table<Product>().Where(p => p.CreatedAt >= start && p.CreatedAt <= stop).OrderBy(p => p.CreatedAt).ToListAsync();
+        }
+        internal static Task<List<Product>> FindAllByFiltering(DateTime dateFrom, DateTime dateTo)
+        {
+            dateTo = dateTo.Date + new TimeSpan(23, 59, 59);
+            dateFrom = dateFrom.Date + new TimeSpan(0, 0, 0);
+            return DataBase.db.Table<Product>().Where(p => (p.CreatedAt >= dateFrom) && (p.CreatedAt <= dateTo)).OrderBy(p => p.CreatedAt).ToListAsync();
         }
 
         internal static Task<Product> FindOneById(int id)

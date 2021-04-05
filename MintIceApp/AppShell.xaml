@@ -42,7 +42,7 @@
             Icon="list_solid.png" />
         <ShellContent
             Title="Historia"
-            ContentTemplate="{DataTemplate local:SummaryPage}"
+            ContentTemplate="{DataTemplate local:HistoryPage}"
             Icon="calendar_alt_solid.png" />
         <ShellContent
             Title="Opcje"

@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MintIceApp.Views.HistoryPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:MintIceApp.ViewModels"
+    xmlns:model="clr-namespace:MintIceApp.Models"
+    x:Name="HistoryList"
+    Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame Padding="10">
+                <StackLayout Orientation="Horizontal">
+                    <Label
+                        FontSize="Medium"
+                        Text="Od:"
+                        VerticalOptions="Center" />
+                    <DatePicker
+                        x:Name="dateFrom"
+                        Date="{Binding DateFrom, Mode=TwoWay}"
+                        DateSelected="dateFrom_DateSelected"
+                        IsEnabled="{Binding Filtering, Mode=TwoWay}" />
+                    <Label
+                        FontSize="Medium"
+                        HorizontalOptions="CenterAndExpand"
+                        Text="Do:"
+                        VerticalOptions="Center" />
+                    <DatePicker
+                        x:Name="dateTo"
+                        Date="{Binding DateTo, Mode=TwoWay}"
+                        DateSelected="dateTo_DateSelected"
+                        IsEnabled="{Binding Filtering, Mode=TwoWay}" />
+                    <ImageButton
+                        x:Name="filtering"
+                        Padding="10"
+                        BackgroundColor="Transparent"
+                        Command="{Binding FilteringCommand}"
+                        HeightRequest="50"
+                        HorizontalOptions="EndAndExpand"
+                        Source="filter_solid.png" />
+                </StackLayout>
+            </Frame>
+            <RefreshView Command="{Binding LoadItemsCommand}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
+                <CollectionView
+                    x:Name="ItemsListView"
+                    ItemsSource="{Binding Items, Mode=TwoWay}"
+                    SelectionMode="None">
+                    <CollectionView.Header>
+                        <StackLayout Padding="10" Orientation="Horizontal">
+                            <Label Text="Data" WidthRequest="150" />
+                            <Label Text="Ilość przepisów" />
+                            <Label HorizontalOptions="EndAndExpand" Text="Suma wagi" />
+
+                        </StackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Padding="10" Orientation="Horizontal">
+                                <Label
+                                    FontSize="Medium"
+                                    Text="{Binding date, StringFormat='{0:d}'}"
+                                    WidthRequest="200" />
+                                <Label FontSize="Medium" Text="{Binding count}" />
+                                <Label
+                                    FontSize="Medium"
+                                    HorizontalOptions="EndAndExpand"
+                                    Text="{Binding quantity}" />
+                                <Label FontSize="Medium" Text="kg" />
+
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

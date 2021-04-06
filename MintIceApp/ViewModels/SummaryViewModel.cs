@@ -111,11 +111,11 @@ namespace MintIceApp.ViewModels
         private async void GeneratePDF(object obj)
         {
             PdfDocument pdf = new PdfDocument();
-            pdf.Info.Title = "My First PDF";
+            pdf.Info.Title = "Podsumowanie dzienne";
             PdfPage pdfPage = pdf.AddPage();
             XGraphics graph = XGraphics.FromPdfPage(pdfPage);
             XFont font = new XFont("Verdana", 24, XFontStyle.Bold);
-            graph.DrawString(Date.ToString("D"), font, XBrushes.Black, 30, 60);
+            graph.DrawString("Podsumowanie dzienne - " + Date.ToString("D"), font, XBrushes.Black, 30, 60);
             double y = 100;
             font = new XFont("Verdana", 14, XFontStyle.Regular);
             decimal sum = 0;
@@ -136,7 +136,7 @@ namespace MintIceApp.ViewModels
 
             var filename = Date.ToString("yyyy-MM-dd_HH-mm-ss") + ".pdf";
             pdf.Save(Path.Combine("/storage/emulated/0/MintIceApp/Summaries", filename));
-            CrossToastPopUp.Current.ShowToastMessage("Wygenerowano podsumowanie PDF (Pamięć wewnętrzna/MintIceApp/Summaries/" + filename + ")");
+            CrossToastPopUp.Current.ShowToastMessage("Wygenerowano podsumowanie dnia (Pamięć wewnętrzna/MintIceApp/Summaries/" + filename + ")");
 
         }
 

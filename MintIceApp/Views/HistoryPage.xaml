@@ -7,6 +7,9 @@
     xmlns:model="clr-namespace:MintIceApp.Models"
     x:Name="HistoryList"
     Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding GeneratePDFCommand}" IconImageSource="file_pdf_solid.png" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <Frame Padding="10">

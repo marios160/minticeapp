@@ -21,6 +21,7 @@ namespace MintIceApp.ViewModels
         public Command FilteringCommand { get; }
         public Command LoadItemsCommand { get; }
         public Command<HistoryItem> ItemTapped { get; }
+        public Command GeneratePDFCommand { get; }
 
         public HistoryViewModel()
         {
@@ -33,8 +34,15 @@ namespace MintIceApp.ViewModels
             Items = new ObservableCollection<HistoryItem>();
             dateTo = DateTime.Now;
             dateFrom = DateTime.Now;
+            GeneratePDFCommand = new Command(GeneratePDF);
 
         }
+
+        private async void GeneratePDF(object obj)
+        {
+            await Shell.Current.GoToAsync($"{nameof(MonthSumaryPage)}");
+        }
+
         public ObservableCollection<HistoryItem> Items
         {
             get => items;

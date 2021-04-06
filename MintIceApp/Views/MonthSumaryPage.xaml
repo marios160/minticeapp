@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MintIceApp.Views.MonthSumaryPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="{Binding Title}">
+    <ContentPage.Content>
+        <StackLayout Padding="10">
+            <Frame>
+                <StackLayout>
+                    <Label FontSize="Medium" Text="Wybierz rok i miesiąc podsumowania:" />
+                    <StackLayout Orientation="Horizontal">
+                        <Picker
+                            ItemsSource="{Binding Years, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedYear}"
+                            WidthRequest="100" />
+                        <Picker
+                            HorizontalOptions="FillAndExpand"
+                            ItemsSource="{Binding Months, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedMonth}" />
+
+                    </StackLayout>
+                    <Button
+                        Margin="0,20,0,0"
+                        Command="{Binding GeneratePDFCommand}"
+                        Text="Generuj" />
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

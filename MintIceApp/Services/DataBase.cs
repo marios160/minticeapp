@@ -22,5 +22,15 @@ namespace MintIceApp.Services
             db.CreateTableAsync<Product>();
             db.CreateTableAsync<Ingredient>();
         }
+
+        static public void clearDB()
+        {
+            db.DropTableAsync<Recipe>();
+            db.DropTableAsync<Product>();
+            db.DropTableAsync<Ingredient>();
+            db.CreateTableAsync<Recipe>();
+            db.CreateTableAsync<Product>();
+            db.CreateTableAsync<Ingredient>();
+        }
     }
 }

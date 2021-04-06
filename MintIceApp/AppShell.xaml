@@ -46,7 +46,7 @@
             Icon="calendar_alt_solid.png" />
         <ShellContent
             Title="Opcje"
-            ContentTemplate="{DataTemplate local:NewRecipePage}"
+            ContentTemplate="{DataTemplate local:SettingsPage}"
             Icon="cogs_solid.png" />
     </TabBar>
 

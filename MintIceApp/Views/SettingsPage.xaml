@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MintIceApp.Views.SettingsPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="Ustawienia">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame>
+                <StackLayout Spacing="20">
+                    <Button
+                        x:Name="export"
+                        Clicked="export_Clicked"
+                        Text="Exportuj bazę danych" />
+                    <Button
+                        x:Name="import"
+                        Clicked="import_Clicked"
+                        Text="Importuj bazę danych" />
+                    <Button
+                        x:Name="clear"
+                        Clicked="clear_Clicked"
+                        Text="Wyczyść bazę danych" />
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -15,14 +15,8 @@ namespace MintIceApp
         {
             Xamarin.Forms.Application.Current.On<Xamarin.Forms.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
             InitializeComponent();
-            MainPage = new AppShell();
-            DataBase db = new DataBase();
-            if (!Directory.Exists("/storage/emulated/0/MintIceApp"))
-            {
-                Directory.CreateDirectory("/storage/emulated/0/MintIceApp");
-                Directory.CreateDirectory("/storage/emulated/0/MintIceApp/Summaries");
-                Directory.CreateDirectory("/storage/emulated/0/MintIceApp/Export");
-            }
+            MainPage = new SplashScreen();
+           
 
         }
 

@@ -190,4 +190,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\filter_solid.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\logo.png" />
+  </ItemGroup>
 </Project>

@@ -27,7 +27,7 @@ namespace MintIceApp.ViewModels
             Title = "Podsumowanie miesięczne";
             Years = new List<string>();
             Months = new List<string>();
-            for (int i = DateTime.Now.Year; i >= 2000 ; i--)
+            for (int i = DateTime.Now.Year; i >= 2021 ; i--)
             {
                 Years.Add(i.ToString());
             }

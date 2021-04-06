@@ -21,7 +21,7 @@ namespace MintIceApp.Views
         {
             InitializeComponent();
 
-            BindingContext = _viewModel = new SummaryViewModel();
+            BindingContext = _viewModel = new SummaryViewModel(summary);
         }
 
         protected override void OnAppearing()

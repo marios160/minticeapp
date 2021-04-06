@@ -4,6 +4,7 @@ using Xamarin.Forms.Xaml;
 using MintIceApp.Services;
 using MintIceApp.Views;
 using Xamarin.Forms.PlatformConfiguration.AndroidSpecific;
+using System.IO;
 
 namespace MintIceApp
 {
@@ -16,6 +17,12 @@ namespace MintIceApp
             InitializeComponent();
             MainPage = new AppShell();
             DataBase db = new DataBase();
+            if (!Directory.Exists("/storage/emulated/0/MintIceApp"))
+            {
+                Directory.CreateDirectory("/storage/emulated/0/MintIceApp");
+                Directory.CreateDirectory("/storage/emulated/0/MintIceApp/Summaries");
+                Directory.CreateDirectory("/storage/emulated/0/MintIceApp/Export");
+            }
 
         }
 

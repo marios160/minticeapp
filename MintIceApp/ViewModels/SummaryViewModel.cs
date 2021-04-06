@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using PdfSharp;
+
 
 using Xamarin.Forms;
 
@@ -9,6 +11,12 @@ using MintIceApp.Models;
 using MintIceApp.Views;
 using MintIceApp.Repositories;
 using Plugin.Toast;
+using System.IO;
+using PdfSharpCore.Drawing;
+using PdfSharpCore.Pdf;
+using PdfSharpCore.Fonts;
+using PdfSharpCore.Utils;
+using PdfSharp.Xamarin.Forms;
 
 namespace MintIceApp.ViewModels
 {
@@ -18,14 +26,14 @@ namespace MintIceApp.ViewModels
 
         public ObservableCollection<Product> Items { get; }
         public Command LoadItemsCommand { get; }
-        public Command AddItemCommand { get; }
+        public Command GeneratePDFCommand { get; }
         public Command RemoveCommand { get; }
         public Command<Product> ItemTapped { get; }
-
+        private View view;
 
         private DateTime date;
         private string dateString;
-        public SummaryViewModel()
+        public SummaryViewModel(View view)
         {
             Title = "Podsumowanie dnia";
             Items = new ObservableCollection<Product>();
@@ -35,9 +43,10 @@ namespace MintIceApp.ViewModels
             this.PropertyChanged += (_, __) => RemoveCommand.ChangeCanExecute();
 
 
-            AddItemCommand = new Command(OnAddItem);
+            GeneratePDFCommand = new Command(GeneratePDF);
 
-            //Date = DateTime.Now.ToString("D");
+            Date = DateTime.Now;
+            this.view = view;
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -99,11 +108,39 @@ namespace MintIceApp.ViewModels
             await Shell.Current.GoToAsync($"{nameof(ItemDetailPage)}?ProductId={item.Id}");
         }
 
-        private async void OnAddItem(object obj)
+        private async void GeneratePDF(object obj)
         {
-            await Shell.Current.GoToAsync(nameof(NewRecipePage));
+            PdfDocument pdf = new PdfDocument();
+            pdf.Info.Title = "My First PDF";
+            PdfPage pdfPage = pdf.AddPage();
+            XGraphics graph = XGraphics.FromPdfPage(pdfPage);
+            XFont font = new XFont("Verdana", 24, XFontStyle.Bold);
+            graph.DrawString(Date.ToString("D"), font, XBrushes.Black, 30, 60);
+            double y = 100;
+            font = new XFont("Verdana", 14, XFontStyle.Regular);
+            decimal sum = 0;
+            foreach (var item in Items)
+            {
+                graph.DrawString(item.Name, font, XBrushes.Black, 60, y);
+                graph.DrawString(item.Quantity + " kg", font, XBrushes.Black, 300, y);
+                y += 30;
+                sum += item.Quantity;
+                if(y > 700)
+                {
+                    graph = XGraphics.FromPdfPage(pdf.AddPage());
+                    y = 100;
+                }                
+            }
+            font = new XFont("Verdana", 24, XFontStyle.Bold);
+            graph.DrawString("Suma: " + sum + " kg", font, XBrushes.Black, 30, y+20);
+
+            var filename = Date.ToString("yyyy-MM-dd_HH-mm-ss") + ".pdf";
+            pdf.Save(Path.Combine("/storage/emulated/0/MintIceApp/Summaries", filename));
+            CrossToastPopUp.Current.ShowToastMessage("Wygenerowano podsumowanie PDF (Pamięć wewnętrzna/MintIceApp/Summaries/" + filename + ")");
+
         }
 
-        
+
+
     }
 }

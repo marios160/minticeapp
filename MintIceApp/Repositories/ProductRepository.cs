@@ -24,14 +24,14 @@ namespace MintIceApp.Repositories
         }
         internal static Task<List<Product>> FindAllByCreatedAt(DateTime date)
         {
-            DateTime start = date + new TimeSpan(0, 0, 0);
-            DateTime stop = date + new TimeSpan(59, 59, 59);
+            DateTime start = date.Date + new TimeSpan(0, 0, 0);
+            DateTime stop = date.Date + new TimeSpan(23, 59, 59);
             return DataBase.db.Table<Product>().Where(p => p.CreatedAt >= start && p.CreatedAt <= stop).OrderBy(p => p.CreatedAt).ToListAsync();
         }
         internal static Task<List<Product>> FindAllByFiltering(DateTime dateFrom, DateTime dateTo)
         {
-            dateTo = dateTo.Date + new TimeSpan(23, 59, 59);
             dateFrom = dateFrom.Date + new TimeSpan(0, 0, 0);
+            dateTo = dateTo.Date + new TimeSpan(23, 59, 59);
             return DataBase.db.Table<Product>().Where(p => (p.CreatedAt >= dateFrom) && (p.CreatedAt <= dateTo)).OrderBy(p => p.CreatedAt).ToListAsync();
         }
 

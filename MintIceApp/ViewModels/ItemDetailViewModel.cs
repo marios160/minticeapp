@@ -130,17 +130,6 @@ namespace MintIceApp.ViewModels
             {
                 OnSave();
             }
-
-            PdfDocument pdf = new PdfDocument();
-            PdfPage pdfPage = pdf.AddPage();
-            pdfPage.Width = 62;
-            pdfPage.Height = 30;
-            XGraphics graph = XGraphics.FromPdfPage(pdfPage);
-            XFont font = new XFont("Verdana", 10, XFontStyle.Bold);
-            graph.DrawString("DUPA", font, XBrushes.Black, 20, 20);
-            var filename = "test.pdf";
-            pdf.Save(Path.Combine("/storage/emulated/0/MintIceApp/", filename));
-
             CrossToastPopUp.Current.ShowToastMessage("Drukowanie...");
             IBrotherService service = DependencyService.Get<IBrotherService>();
             string result = service.PrintLabelAsync(product.Name);

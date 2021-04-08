@@ -3,11 +3,15 @@
     x:Class="MintIceApp.Views.NewRecipePage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:cnv="clr-namespace:MintIceApp.Converters"
     xmlns:local="clr-namespace:MintIceApp.ViewModels"
     xmlns:model="clr-namespace:MintIceApp.Models"
     x:Name="NewRecipe"
     Title="{Binding Title}"
     Shell.PresentationMode="Animated">
+    <ContentPage.Resources>
+        <cnv:DecimalConverter x:Key="Decimal" />
+    </ContentPage.Resources>
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding SaveCommand}" IconImageSource="save_solid.png" />
     </ContentPage.ToolbarItems>
@@ -71,7 +75,8 @@
                         CachingStrategy="RecycleElement"
                         HasUnevenRows="True"
                         HeightRequest="250"
-                        ItemsSource="{Binding Ingredients, Mode=TwoWay}">
+                        ItemsSource="{Binding Ingredients, Mode=TwoWay}"
+                        SelectionMode="None">
 
 
                         <ListView.ItemTemplate>
@@ -90,7 +95,7 @@
                                             Margin="0"
                                             FontSize="Medium"
                                             HorizontalOptions="Fill"
-                                            Text="{Binding Quantity, Mode=TwoWay}" />
+                                            Text="{Binding Quantity, Mode=TwoWay, Converter={StaticResource Decimal}}" />
                                         <Label
                                             FontSize="Medium"
                                             Text="g"

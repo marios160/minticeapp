@@ -22,7 +22,7 @@ namespace MintIceApp.Views
         {
             InitializeComponent();
 
-            BindingContext = _viewModel = new RecipesViewModel();
+            BindingContext = _viewModel = new RecipesViewModel(this);
         }
 
         protected override void OnAppearing()

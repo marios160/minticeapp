@@ -3,6 +3,7 @@ using SQLite;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace MintIceApp.Services
 {
@@ -23,14 +24,14 @@ namespace MintIceApp.Services
             db.CreateTableAsync<Ingredient>();
         }
 
-        static public void clearDB()
+        static async public Task clearDB()
         {
-            db.DropTableAsync<Recipe>();
-            db.DropTableAsync<Product>();
-            db.DropTableAsync<Ingredient>();
-            db.CreateTableAsync<Recipe>();
-            db.CreateTableAsync<Product>();
-            db.CreateTableAsync<Ingredient>();
+            await db.DropTableAsync<Recipe>();
+            await db.DropTableAsync<Product>();
+            await db.DropTableAsync<Ingredient>();
+            await db.CreateTableAsync<Recipe>();
+            await db.CreateTableAsync<Product>();
+            await db.CreateTableAsync<Ingredient>();
         }
     }
 }

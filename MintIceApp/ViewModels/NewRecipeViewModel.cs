@@ -17,9 +17,9 @@ namespace MintIceApp.ViewModels
     {
         private string recipeName;
         private string recipeNote;
-        private int sum;
+        private decimal sum;
         private string ingredientName;
-        private int ingredientQuantity;
+        private decimal ingredientQuantity;
         private ObservableCollection<Ingredient> ingredients;
         private string recipeId;
         private Recipe recipe;
@@ -80,7 +80,7 @@ namespace MintIceApp.ViewModels
             get => recipe;
             set => SetProperty(ref recipe, value);
         }
-        public int Sum
+        public decimal Sum
         {
             get => sum;
             set => SetProperty(ref sum, value);
@@ -103,7 +103,7 @@ namespace MintIceApp.ViewModels
             get => ingredientName;
             set => SetProperty(ref ingredientName, value);
         }
-        public int IngredientQuantity
+        public decimal IngredientQuantity
         {
             get => ingredientQuantity;
             set => SetProperty(ref ingredientQuantity, value);
@@ -165,7 +165,9 @@ namespace MintIceApp.ViewModels
             foreach (Ingredient ingredient in Ingredients)
             {
                 ingredient.RecipeId = Recipe.Id;
+                Console.WriteLine(ingredient.Quantity);
                 IngredientRepository.Insert(ingredient);
+                Console.WriteLine(ingredient.Quantity);
             }
 
             CrossToastPopUp.Current.ShowToastMessage("Zapisano recepturę");

@@ -21,7 +21,7 @@ namespace MintIceApp.ViewModels
     {
         private string recipeName;
         private string recipeNote;
-        private int sum;
+        private decimal sum;
         private ObservableCollection<Ingredient> ingredients;
         private string recipeId;
         private string productId;
@@ -66,7 +66,7 @@ namespace MintIceApp.ViewModels
                 Recipe = RecipeRepository.FindOneById(Product.RecipeId).Result;
                 RecipeName = Recipe.Name;
                 RecipeNote = Recipe.Note;
-                Sum = Convert.ToInt32(Product.Quantity);
+                Sum = Product.Quantity;
                 foreach (var item in Recipe.GetIngredients())
                 {
                     Ingredients.Add(item);
@@ -87,7 +87,7 @@ namespace MintIceApp.ViewModels
             set => SetProperty(ref product, value);
         }
 
-    public int Sum
+        public decimal Sum
         {
             get => sum;
             set => SetProperty(ref sum, value);

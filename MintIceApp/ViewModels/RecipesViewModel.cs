@@ -24,9 +24,10 @@ namespace MintIceApp.ViewModels
         public Command<Recipe> RemoveCommand { get; }
         public Command<Recipe> FavouriteCommand { get; }
         public Command<Recipe> ItemTapped { get; }
-
-        public RecipesViewModel()
+        private Page Page { get; set; }
+        public RecipesViewModel(Page page)
         {
+            Page = page;
             Title = "Receptury";
             Items = new ObservableCollection<Recipe>();
 
@@ -56,12 +57,16 @@ namespace MintIceApp.ViewModels
             }
             OnAppearing();
         }
-
-        private void RemoveRecipe(Recipe recipe)
+         
+        private async void RemoveRecipe(Recipe recipe)
         {
-            Items.Remove(recipe);
-            RecipeRepository.Delete(recipe);
-            CrossToastPopUp.Current.ShowToastMessage("Usunięto recepturę");
+            bool ask = await Page.DisplayAlert("Usuwanie receptury", "Czy chcesz usunąć recepturę", "Tak", "Nie");
+            if (ask)
+            {
+                Items.Remove(recipe);
+                RecipeRepository.Delete(recipe);
+                CrossToastPopUp.Current.ShowToastMessage("Usunięto recepturę");
+            }
 
         }
 

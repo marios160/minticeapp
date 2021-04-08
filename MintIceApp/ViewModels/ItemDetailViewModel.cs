@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using MintIceApp.Models;
 using MintIceApp.Repositories;
+using MintIceApp.Services;
+using PdfSharpCore.Drawing;
+using PdfSharpCore.Pdf;
 using Plugin.Toast;
 using Xamarin.Forms;
 
@@ -122,7 +126,24 @@ namespace MintIceApp.ViewModels
 
         private async void OnPrint()
         {
+            if (Product == null)
+            {
+                OnSave();
+            }
+
+            PdfDocument pdf = new PdfDocument();
+            PdfPage pdfPage = pdf.AddPage();
+            pdfPage.Width = 62;
+            pdfPage.Height = 30;
+            XGraphics graph = XGraphics.FromPdfPage(pdfPage);
+            XFont font = new XFont("Verdana", 10, XFontStyle.Bold);
+            graph.DrawString("DUPA", font, XBrushes.Black, 20, 20);
+            var filename = "test.pdf";
+            pdf.Save(Path.Combine("/storage/emulated/0/MintIceApp/", filename));
+
             CrossToastPopUp.Current.ShowToastMessage("Drukowanie...");
+            IBrotherService service = DependencyService.Get<IBrotherService>();
+            string result = service.PrintLabelAsync(product.Name);
 
         }
         private async void OnSave()

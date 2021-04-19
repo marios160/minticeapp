@@ -3,6 +3,7 @@
     x:Class="MintIceApp.Views.ItemDetailPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:color="clr-namespace:MintIceApp.Services"
     xmlns:local="clr-namespace:MintIceApp.ViewModels"
     xmlns:model="clr-namespace:MintIceApp.Models"
     x:Name="NewProduct"
@@ -12,6 +13,65 @@
         <ToolbarItem Command="{Binding PrintCommand}" IconImageSource="print_solid.png" />
         <ToolbarItem Command="{Binding SaveCommand}" IconImageSource="save_solid.png" />
     </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="evenTemplate">
+                <ViewCell>
+                    <StackLayout
+                        Padding="5,5,5,5"
+                        BackgroundColor="#d3f0e8"
+                        Orientation="Horizontal">
+                        <Label
+                            x:Name="name"
+                            Margin="0"
+                            FontSize="Medium"
+                            HorizontalOptions="FillAndExpand"
+                            Text="{Binding Name, Mode=TwoWay}" />
+                        <Label
+                            x:Name="quantity"
+                            Margin="0"
+                            FontSize="Medium"
+                            HorizontalOptions="Fill"
+                            Text="{Binding Quantity, Mode=TwoWay}" />
+                        <Label
+                            FontSize="Medium"
+                            Text="g"
+                            VerticalTextAlignment="Start" />
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+            <DataTemplate x:Key="unevenTemplate">
+                <ViewCell>
+                    <StackLayout
+                        Padding="5,5,5,5"
+                        BackgroundColor="White"
+                        Orientation="Horizontal">
+                        <Label
+                            x:Name="name"
+                            Margin="0"
+                            FontSize="Medium"
+                            HorizontalOptions="FillAndExpand"
+                            Text="{Binding Name, Mode=TwoWay}" />
+                        <Label
+                            x:Name="quantity"
+                            Margin="0"
+                            FontSize="Medium"
+                            HorizontalOptions="Fill"
+                            Text="{Binding Quantity, Mode=TwoWay}" />
+                        <Label
+                            FontSize="Medium"
+                            Text="g"
+                            VerticalTextAlignment="Start" />
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+            <color:AlternateColorDataTemplateSelector
+                x:Key="alternateColorDataTemplateSelector"
+                EvenTemplate="{StaticResource evenTemplate}"
+                UnevenTemplate="{StaticResource unevenTemplate}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <StackLayout Padding="15" Spacing="20">
             <Label FontSize="Medium" Text="{Binding RecipeName}" />
@@ -31,41 +91,16 @@
                     Text="g"
                     VerticalTextAlignment="Center" />
             </StackLayout>
-            <Frame Padding="5,5,5,5">
+            <Frame Padding="5,5,5,5" VerticalOptions="FillAndExpand">
                 <ListView
                     x:Name="ingredients"
                     CachingStrategy="RecycleElement"
                     HasUnevenRows="True"
-                    HeightRequest="250"
+                    ItemTemplate="{StaticResource alternateColorDataTemplateSelector}"
                     ItemsSource="{Binding Ingredients, Mode=TwoWay}"
-                    SelectionMode="None">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <StackLayout Padding="0,5,0,0" Orientation="Horizontal">
-                                    <Label
-                                        x:Name="name"
-                                        Margin="0"
-                                        FontSize="Medium"
-                                        HorizontalOptions="FillAndExpand"
-                                        Text="{Binding Name, Mode=TwoWay}" />
-                                    <Label
-                                        x:Name="quantity"
-                                        Margin="0"
-                                        FontSize="Medium"
-                                        HorizontalOptions="Fill"
-                                        Text="{Binding Quantity, Mode=TwoWay}" />
-                                    <Label
-                                        FontSize="Medium"
-                                        Text="g"
-                                        VerticalTextAlignment="Start" />
-                                </StackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
+                    SelectionMode="None" />
             </Frame>
-            <Frame Padding="0">
+            <Frame Padding="0" VerticalOptions="EndAndExpand">
                 <Label
                     HeightRequest="160"
                     LineBreakMode="WordWrap"

@@ -4,20 +4,158 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:cnv="clr-namespace:MintIceApp.Converters"
+    xmlns:color="clr-namespace:MintIceApp.Services"
     xmlns:local="clr-namespace:MintIceApp.ViewModels"
     xmlns:model="clr-namespace:MintIceApp.Models"
     x:Name="RecipesListPage"
     Title="{Binding Title}">
     <ContentPage.Resources>
         <cnv:InverseBooleanConverter x:Key="Inverse" />
+        <ResourceDictionary>
+            <DataTemplate x:Key="evenTemplate">
+                <ViewCell>
+                    <StackLayout
+                        Padding="0"
+                        x:DataType="model:Recipe"
+                        BackgroundColor="#d3f0e8"
+                        Orientation="Horizontal">
+                        <Label
+                            Margin="0,0,0,0"
+                            Padding="10"
+                            FontSize="18"
+                            HorizontalOptions="FillAndExpand"
+                            LineBreakMode="WordWrap"
+                            Style="{DynamicResource ListItemTextStyle}"
+                            Text="{Binding Name}" />
+                        <ImageButton
+                            Padding="10,0,10,0"
+                            BackgroundColor="Transparent"
+                            Command="{Binding RemoveCommand, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
+                            CommandParameter="{Binding .}"
+                            HeightRequest="25"
+                            HorizontalOptions="Fill"
+                            Source="trash_alt_solid.png"
+                            VerticalOptions="Fill"
+                            WidthRequest="45" />
+                        <ImageButton
+                            Padding="10,0,10,0"
+                            BackgroundColor="Transparent"
+                            Command="{Binding EditCommand, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
+                            CommandParameter="{Binding .}"
+                            HeightRequest="25"
+                            HorizontalOptions="Fill"
+                            Source="edit_solid.png"
+                            VerticalOptions="Fill"
+                            WidthRequest="45" />
+                        <ImageButton
+                            Padding="10,0,10,0"
+                            BackgroundColor="Transparent"
+                            Command="{Binding FavouriteCommand, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
+                            CommandParameter="{Binding .}"
+                            HeightRequest="25"
+                            HorizontalOptions="Fill"
+                            IsVisible="{Binding Favourite, Converter={StaticResource Inverse}}"
+                            Source="star_regular.png"
+                            VerticalOptions="Fill"
+                            WidthRequest="45" />
+                        <ImageButton
+                            Margin="0,0,10,0"
+                            Padding="10,0,10,0"
+                            BackgroundColor="Transparent"
+                            Command="{Binding FavouriteCommand, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
+                            CommandParameter="{Binding .}"
+                            HeightRequest="25"
+                            HorizontalOptions="Fill"
+                            IsVisible="{Binding Favourite}"
+                            Source="star_solid.png"
+                            VerticalOptions="Fill"
+                            WidthRequest="45" />
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding ItemTapped, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
+                                CommandParameter="{Binding .}"
+                                NumberOfTapsRequired="1" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+            <DataTemplate x:Key="unevenTemplate">
+                <ViewCell>
+                    <StackLayout
+                        Padding="0"
+                        x:DataType="model:Recipe"
+                        BackgroundColor="White"
+                        Orientation="Horizontal">
+                        <Label
+                            Margin="0,0,0,0"
+                            Padding="10"
+                            FontSize="18"
+                            HorizontalOptions="FillAndExpand"
+                            LineBreakMode="WordWrap"
+                            Style="{DynamicResource ListItemTextStyle}"
+                            Text="{Binding Name}" />
+                        <ImageButton
+                            Padding="10,0,10,0"
+                            BackgroundColor="Transparent"
+                            Command="{Binding RemoveCommand, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
+                            CommandParameter="{Binding .}"
+                            HeightRequest="25"
+                            HorizontalOptions="Fill"
+                            Source="trash_alt_solid.png"
+                            VerticalOptions="Fill"
+                            WidthRequest="45" />
+                        <ImageButton
+                            Padding="10,0,10,0"
+                            BackgroundColor="Transparent"
+                            Command="{Binding EditCommand, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
+                            CommandParameter="{Binding .}"
+                            HeightRequest="25"
+                            HorizontalOptions="Fill"
+                            Source="edit_solid.png"
+                            VerticalOptions="Fill"
+                            WidthRequest="45" />
+                        <ImageButton
+                            Padding="10,0,10,0"
+                            BackgroundColor="Transparent"
+                            Command="{Binding FavouriteCommand, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
+                            CommandParameter="{Binding .}"
+                            HeightRequest="25"
+                            HorizontalOptions="Fill"
+                            IsVisible="{Binding Favourite, Converter={StaticResource Inverse}}"
+                            Source="star_regular.png"
+                            VerticalOptions="Fill"
+                            WidthRequest="45" />
+                        <ImageButton
+                            Margin="0,0,10,0"
+                            Padding="10,0,10,0"
+                            BackgroundColor="Transparent"
+                            Command="{Binding FavouriteCommand, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
+                            CommandParameter="{Binding .}"
+                            HeightRequest="25"
+                            HorizontalOptions="Fill"
+                            IsVisible="{Binding Favourite}"
+                            Source="star_solid.png"
+                            VerticalOptions="Fill"
+                            WidthRequest="45" />
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding ItemTapped, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
+                                CommandParameter="{Binding .}"
+                                NumberOfTapsRequired="1" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </ViewCell>
+            </DataTemplate>
+            <color:AlternateColorRecipe
+                x:Key="alternateColorDataTemplateSelector"
+                EvenTemplate="{StaticResource evenTemplate}"
+                UnevenTemplate="{StaticResource unevenTemplate}" />
+        </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.ToolbarItems>
         <ToolbarItem Command="{Binding AddItemCommand}" IconImageSource="plus.png" />
     </ContentPage.ToolbarItems>
-    <!--
-        x:DataType enables compiled bindings for better performance and compile time validation of binding expressions.
-        https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/data-binding/compiled-bindings
-    -->
+
     <StackLayout>
         <StackLayout>
             <SearchBar Placeholder="Szukaj..." TextChanged="SearchBar_TextChanged" />
@@ -30,77 +168,9 @@
                 x:Name="ItemsListView"
                 CachingStrategy="RecycleElement"
                 HasUnevenRows="True"
+                ItemTemplate="{StaticResource alternateColorDataTemplateSelector}"
                 ItemsSource="{Binding Items, Mode=TwoWay}"
-                SelectionMode="None">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout
-                                Padding="0"
-                                x:DataType="model:Recipe"
-                                Orientation="Horizontal">
-                                <Label
-                                    Margin="0,0,0,0"
-                                    Padding="10"
-                                    FontSize="18"
-                                    HorizontalOptions="FillAndExpand"
-                                    LineBreakMode="WordWrap"
-                                    Style="{DynamicResource ListItemTextStyle}"
-                                    Text="{Binding Name}" />
-                                <ImageButton
-                                    Padding="10,0,10,0"
-                                    BackgroundColor="Transparent"
-                                    Command="{Binding RemoveCommand, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    HeightRequest="25"
-                                    HorizontalOptions="Fill"
-                                    Source="trash_alt_solid.png"
-                                    VerticalOptions="Fill"
-                                    WidthRequest="45" />
-                                <ImageButton
-                                    Padding="10,0,10,0"
-                                    BackgroundColor="Transparent"
-                                    Command="{Binding EditCommand, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    HeightRequest="25"
-                                    HorizontalOptions="Fill"
-                                    Source="edit_solid.png"
-                                    VerticalOptions="Fill"
-                                    WidthRequest="45" />
-                                <ImageButton
-                                    Padding="10,0,10,0"
-                                    BackgroundColor="Transparent"
-                                    Command="{Binding FavouriteCommand, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    HeightRequest="25"
-                                    HorizontalOptions="Fill"
-                                    IsVisible="{Binding Favourite, Converter={StaticResource Inverse}}"
-                                    Source="star_regular.png"
-                                    VerticalOptions="Fill"
-                                    WidthRequest="45" />
-                                <ImageButton
-                                    Margin="0,0,10,0"
-                                    Padding="10,0,10,0"
-                                    BackgroundColor="Transparent"
-                                    Command="{Binding FavouriteCommand, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
-                                    CommandParameter="{Binding .}"
-                                    HeightRequest="25"
-                                    HorizontalOptions="Fill"
-                                    IsVisible="{Binding Favourite}"
-                                    Source="star_solid.png"
-                                    VerticalOptions="Fill"
-                                    WidthRequest="45" />
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer
-                                        Command="{Binding ItemTapped, Source={RelativeSource AncestorType={x:Type local:RecipesViewModel}}}"
-                                        CommandParameter="{Binding .}"
-                                        NumberOfTapsRequired="1" />
-                                </StackLayout.GestureRecognizers>
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                SelectionMode="None" />
         </RefreshView>
     </StackLayout>
 </ContentPage>

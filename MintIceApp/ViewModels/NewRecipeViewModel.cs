@@ -18,15 +18,16 @@ namespace MintIceApp.ViewModels
         private string recipeName;
         private string recipeNote;
         private decimal sum;
+        private int ingredientId;
         private string ingredientName;
         private decimal ingredientQuantity;
         private ObservableCollection<Ingredient> ingredients;
         private string recipeId;
         private Recipe recipe;
+        private Ingredient ingredient;
 
         public Command SaveCommand { get; }
         public Command AddCommand { get; }
-        public Command EditCommand { get; }
         public Command RemoveCommand { get; }
 
      
@@ -37,11 +38,9 @@ namespace MintIceApp.ViewModels
             Ingredients = new ObservableCollection<Ingredient>();
             SaveCommand = new Command(OnSave, ValidateSave);
             AddCommand = new Command(AddIngredient, ValidateAdd);
-            EditCommand = new Command(EditIngredient);
             RemoveCommand = new Command<Ingredient>((ingredient) => RemoveIngredient(ingredient));
             this.PropertyChanged += (_, __) => SaveCommand.ChangeCanExecute();
             this.PropertyChanged += (_, __) => AddCommand.ChangeCanExecute();
-            this.PropertyChanged += (_, __) => EditCommand.ChangeCanExecute();
             this.PropertyChanged += (_, __) => RemoveCommand.ChangeCanExecute();
 
             
@@ -80,6 +79,11 @@ namespace MintIceApp.ViewModels
             get => recipe;
             set => SetProperty(ref recipe, value);
         }
+        public Ingredient Ingredient
+        {
+            get => ingredient;
+            set => SetProperty(ref ingredient, value);
+        }
         public decimal Sum
         {
             get => sum;
@@ -97,7 +101,11 @@ namespace MintIceApp.ViewModels
             get => recipeNote;
             set => SetProperty(ref recipeNote, value);
         }
-
+        public int IngredientId
+        {
+            get => ingredientId;
+            set => SetProperty(ref ingredientId, value);
+        }
         public string IngredientName
         {
             get => ingredientName;
@@ -136,13 +144,22 @@ namespace MintIceApp.ViewModels
             foreach (Ingredient item in Ingredients)
             {
                 Sum += item.Quantity;
-                Debug.WriteLine(item.Quantity);
             }
         }
 
-        private void EditIngredient()
+        public void EditIngredient()
         {
-            throw new NotImplementedException();
+            Ingredient.Name = IngredientName;
+            Ingredient.Quantity = IngredientQuantity;
+            IngredientRepository.Insert(Ingredient);
+            Ingredients.Clear();
+            foreach (var item in Recipe.GetIngredients())
+            {
+                Ingredients.Add(item);
+            }
+            IngredientName = "";
+            IngredientQuantity = 0;
+            RefreshSum();
         }
 
         private void RemoveIngredient(Ingredient ingredient)

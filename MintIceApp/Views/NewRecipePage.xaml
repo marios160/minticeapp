@@ -17,10 +17,11 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ScrollView>
+            <StackLayout Padding="10">
 
-            <StackLayout Padding="15" Spacing="3">
                 <Entry
                     FontSize="Medium"
+                    HorizontalOptions="FillAndExpand"
                     Keyboard="Chat"
                     Placeholder="Nazwa receptury"
                     Text="{Binding RecipeName, Mode=TwoWay}" />
@@ -54,7 +55,24 @@
                         BackgroundColor="Transparent"
                         Command="{Binding AddCommand}"
                         HeightRequest="30"
+                        IsVisible="true"
                         Source="plus_solid.png" />
+                    <ImageButton
+                        x:Name="save"
+                        Margin="20,0,10,0"
+                        BackgroundColor="Transparent"
+                        Clicked="save_Clicked"
+                        HeightRequest="30"
+                        IsVisible="false"
+                        Source="save_solid.png" />
+                    <ImageButton
+                        x:Name="cancel"
+                        Margin="10,0,10,0"
+                        BackgroundColor="Transparent"
+                        Clicked="cancel_Clicked"
+                        HeightRequest="30"
+                        IsVisible="false"
+                        Source="times_solid.png" />
                 </StackLayout>
                 <BoxView HeightRequest="20" />
                 <StackLayout Orientation="Horizontal">
@@ -75,6 +93,7 @@
                         CachingStrategy="RecycleElement"
                         HasUnevenRows="True"
                         HeightRequest="250"
+                        ItemTapped="ingredients_ItemTapped"
                         ItemsSource="{Binding Ingredients, Mode=TwoWay}"
                         SelectionMode="None">
 
@@ -119,6 +138,7 @@
                 </Frame>
                 <Frame Padding="0">
                     <Editor
+                        x:Name="note"
                         HeightRequest="160"
                         Placeholder="Notatki"
                         Text="{Binding RecipeNote, Mode=TwoWay}" />
@@ -126,5 +146,4 @@
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
-
 </ContentPage>

@@ -24,17 +24,17 @@
                         <Label
                             x:Name="name"
                             Margin="0"
-                            FontSize="Medium"
+                            FontSize="Large"
                             HorizontalOptions="FillAndExpand"
                             Text="{Binding Name, Mode=TwoWay}" />
                         <Label
                             x:Name="quantity"
                             Margin="0"
-                            FontSize="Medium"
+                            FontSize="Large"
                             HorizontalOptions="Fill"
                             Text="{Binding Quantity, Mode=TwoWay}" />
                         <Label
-                            FontSize="Medium"
+                            FontSize="Large"
                             Text="g"
                             VerticalTextAlignment="Start" />
                     </StackLayout>
@@ -49,23 +49,23 @@
                         <Label
                             x:Name="name"
                             Margin="0"
-                            FontSize="Medium"
+                            FontSize="Large"
                             HorizontalOptions="FillAndExpand"
                             Text="{Binding Name, Mode=TwoWay}" />
                         <Label
                             x:Name="quantity"
                             Margin="0"
-                            FontSize="Medium"
+                            FontSize="Large"
                             HorizontalOptions="Fill"
                             Text="{Binding Quantity, Mode=TwoWay}" />
                         <Label
-                            FontSize="Medium"
+                            FontSize="Large"
                             Text="g"
                             VerticalTextAlignment="Start" />
                     </StackLayout>
                 </ViewCell>
             </DataTemplate>
-            <color:AlternateColorDataTemplateSelector
+            <color:AlternateColorIngredient
                 x:Key="alternateColorDataTemplateSelector"
                 EvenTemplate="{StaticResource evenTemplate}"
                 UnevenTemplate="{StaticResource unevenTemplate}" />

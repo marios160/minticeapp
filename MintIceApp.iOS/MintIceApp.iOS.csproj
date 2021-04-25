@@ -194,4 +194,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\logo.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\times_solid.png" />
+  </ItemGroup>
 </Project>

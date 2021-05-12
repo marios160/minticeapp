@@ -1,8 +1,6 @@
 ﻿using MintIceApp.Models;
 using MintIceApp.Repositories;
 using MintIceApp.Services;
-using Plugin.FilePicker;
-using Plugin.FilePicker.Abstractions;
 using Plugin.Toast;
 using System;
 using System.Collections.Generic;

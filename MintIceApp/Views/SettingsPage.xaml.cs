@@ -11,7 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -82,21 +82,31 @@ namespace MintIceApp.Views
                 bool ask = await DisplayAlert("Importowanie bazy danych", "Czy na pewno chcesz zaimportować nową bazę danych? Wszystkie bieżące dane zostaną usunięte!", "Tak", "Nie");
                 if (ask)
                 {
-                    FileData fileData = await CrossFilePicker.Current.PickFile();
-                    if (fileData == null)
-                        return; // user canceled file 
-                    string contents = System.Text.Encoding.UTF8.GetString(fileData.DataArray);
+                    var result = await FilePicker.PickAsync();
+                    string contents = "";
+                    if (result != null)
+                    {
+                        if (result.FileName.EndsWith("sql", StringComparison.OrdinalIgnoreCase))
+                        {
+                            var stream = await result.OpenReadAsync();
+                            using (StreamReader reader = new StreamReader(stream))
+                            {
+                                contents = reader.ReadToEnd();
+                            }
+                        }
+                    }
+
                     string[] separator = { "-- ------------------------------" };
                     string[] queries = contents.Split(separator, StringSplitOptions.RemoveEmptyEntries);
                     await DataBase.clearDB();
-                    if(queries.Length > 0)
-                            await DataBase.db.QueryAsync<Recipe>(queries[0],"");
-                    if(queries.Length > 1)
-                        await DataBase.db.QueryAsync<Product>(queries[1],"");
-                    if(queries.Length > 2)
-                        await DataBase.db.QueryAsync<Ingredient>(queries[2],"");
+                    if (queries.Length > 0)
+                        await DataBase.db.QueryAsync<Recipe>(queries[0], "");
+                    if (queries.Length > 1)
+                        await DataBase.db.QueryAsync<Product>(queries[1], "");
+                    if (queries.Length > 2)
+                        await DataBase.db.QueryAsync<Ingredient>(queries[2], "");
 
-                    
+
                     CrossToastPopUp.Current.ShowToastMessage("Baza danych została zaimportowana");
                 }
             }
